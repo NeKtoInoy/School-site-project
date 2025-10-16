@@ -19,7 +19,7 @@
                     </div>
                     <div class="stat">
                         <span class="stat-label">XP:</span>
-                        <span id="xp">0</span>/<span id="xp-needed">100</span>
+                        <span id="xp">0</span>/<span id="xp-needed">50</span>
                     </div>
                     <div class="stat">
                         <span class="stat-label">Звание:</span>
@@ -228,7 +228,7 @@
 
             <!-- Уровень 3 -->
             <div class="quest-level" id="level-3" style="display: none;">
-                <h3>⚡ Уровень 3: Файловый мастер (50-80 XP)</h3>
+                <h3>⚡ Уровень 3: Файловый мастер (50+ XP)</h3>
                 
                 <div class="quest-card" data-quest="3.1">
                     <div class="quest-header">
@@ -282,84 +282,6 @@
                             <label>
                                 <input type="checkbox" onchange="updateQuest('3.2', this.checked)" disabled>
                                 Я нашел txt-файлы и посмотрел информацию о системе
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Уровень 4 -->
-            <div class="quest-level" id="level-4" style="display: none;">
-                <h3>🛠️ Уровень 4: Спасатель сети (80+ XP)</h3>
-                
-                <div class="quest-card" data-quest="4.1">
-                    <div class="quest-header">
-                        <h4>Починить сломанную конфигурацию (20 XP)</h4>
-                        <span class="quest-status status-locked" id="status-4.1">🔒 Заблокировано</span>
-                    </div>
-                    <div class="quest-description">
-                        <p><strong>Задача:</strong> Найти и исправить неисправность в сети</p>
-                        <div class="quest-steps">
-                            <p>Учитель специально "сломал" настройки на вашей виртуальной машине.</p>
-                            <p>Возможные проблемы:</p>
-                            <ul>
-                                <li>❌ Неправильный IP-адрес</li>
-                                <li>❌ Отключена сетевая карта</li>
-                                <li>❌ Неверная маска подсети</li>
-                                <li>❌ Неправильный шлюз</li>
-                            </ul>
-                            <p>Используйте команды диагностики, чтобы найти проблему!</p>
-                        </div>
-                        <div class="quest-check">
-                            <label>
-                                <input type="checkbox" onchange="updateQuest('4.1', this.checked)" disabled>
-                                Я нашел и исправил неисправность
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Бонусные задания -->
-            <div class="bonus-section">
-                <h3>🏆 Бонусные задания</h3>
-                <div class="quest-card bonus-card">
-                    <div class="quest-header">
-                        <h4>Помощь товарищу (+5 XP)</h4>
-                    </div>
-                    <div class="quest-check">
-                        <label>
-                            <input type="checkbox" onchange="updateBonus('help', this.checked)">
-                            Я помог другой команде выполнить задание
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="quest-card bonus-card">
-                    <div class="quest-header">
-                        <h4>Скриптовод (+10 XP)</h4>
-                    </div>
-                    <div class="quest-description">
-                        <p>Создать простой bash-скрипт, который выводит системную информацию</p>
-                        <div class="quest-check">
-                            <label>
-                                <input type="checkbox" onchange="updateBonus('script', this.checked)">
-                                Я создал скрипт для вывода системной информации
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="quest-card bonus-card">
-                    <div class="quest-header">
-                        <h4>Супер-детектив (+20 XP)</h4>
-                    </div>
-                    <div class="quest-description">
-                        <p>Найти и объяснить сразу 2 разные неисправности в сети</p>
-                        <div class="quest-check">
-                            <label>
-                                <input type="checkbox" onchange="updateBonus('super', this.checked)">
-                                Я нашел и объяснил 2 неисправности
                             </label>
                         </div>
                     </div>
