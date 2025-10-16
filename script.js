@@ -9,13 +9,7 @@ const gameData = {
         '2.1': { completed: false, xp: 15, unlocked: false },
         '2.2': { completed: false, xp: 10, unlocked: false },
         '3.1': { completed: false, xp: 15, unlocked: false },
-        '3.2': { completed: false, xp: 15, unlocked: false },
-        '4.1': { completed: false, xp: 20, unlocked: false }
-    },
-    bonuses: {
-        'help': { completed: false, xp: 5 },
-        'script': { completed: false, xp: 10 },
-        'super': { completed: false, xp: 20 }
+        '3.2': { completed: false, xp: 15, unlocked: false }
     }
 };
 
@@ -23,9 +17,7 @@ const gameData = {
 const levels = [
     { level: 1, xpNeeded: 0, rank: "Стажер" },
     { level: 2, xpNeeded: 25, rank: "Сетевой детектив" },
-    { level: 3, xpNeeded: 50, rank: "Файловый мастер" },
-    { level: 4, xpNeeded: 80, rank: "Спасатель сети" },
-    { level: 5, xpNeeded: 100, rank: "Сетевой Гуру" }
+    { level: 3, xpNeeded: 50, rank: "Файловый мастер" }
 ];
 
 // Инициализация игры
@@ -100,20 +92,6 @@ function updateQuest(questId, completed) {
     }
 }
 
-// Обновление бонуса
-function updateBonus(bonusId, completed) {
-    if (gameData.bonuses[bonusId]) {
-        gameData.bonuses[bonusId].completed = completed;
-        calculateXP();
-        updateUI();
-        saveProgress();
-        
-        if (completed) {
-            showAchievement(`Бонус получен! +${gameData.bonuses[bonusId].xp} XP`);
-        }
-    }
-}
-
 // Расчет XP
 function calculateXP() {
     let totalXP = 0;
@@ -122,13 +100,6 @@ function calculateXP() {
     Object.values(gameData.quests).forEach(quest => {
         if (quest.completed && quest.unlocked) {
             totalXP += quest.xp;
-        }
-    });
-    
-    // Считаем XP за бонусы
-    Object.values(gameData.bonuses).forEach(bonus => {
-        if (bonus.completed) {
-            totalXP += bonus.xp;
         }
     });
     
@@ -162,7 +133,6 @@ function updateLevel() {
 function checkLevelUnlocks() {
     const level2 = document.getElementById('level-2');
     const level3 = document.getElementById('level-3');
-    const level4 = document.getElementById('level-4');
     
     // Уровень 2 разблокируется при 25 XP
     if (gameData.xp >= 25) {
@@ -174,12 +144,6 @@ function checkLevelUnlocks() {
     if (gameData.xp >= 50) {
         level3.style.display = 'block';
         unlockQuests(['3.1', '3.2']);
-    }
-    
-    // Уровень 4 разблокируется при 80 XP
-    if (gameData.xp >= 80) {
-        level4.style.display = 'block';
-        unlockQuests(['4.1']);
     }
 }
 
@@ -323,8 +287,7 @@ function saveProgress() {
         xp: gameData.xp,
         level: gameData.level,
         rank: gameData.rank,
-        quests: gameData.quests,
-        bonuses: gameData.bonuses
+        quests: gameData.quests
     };
     localStorage.setItem('sysadminGameProgress', JSON.stringify(saveData));
 }
@@ -338,7 +301,6 @@ function loadProgress() {
         gameData.level = saveData.level || 1;
         gameData.rank = saveData.rank || "Стажер";
         gameData.quests = saveData.quests || gameData.quests;
-        gameData.bonuses = saveData.bonuses || gameData.bonuses;
         
         checkLevelUnlocks();
     }
