@@ -215,6 +215,25 @@ function checkGateway(questId) {
     }
 }
 
+// Новая функция проверки DNS
+function checkDNS(questId) {
+    const ipInput = document.getElementById(`ip-input-${questId}`);
+    const validationResult = document.getElementById(`validation-${questId}`);
+    const ip = ipInput.value.trim();
+    
+    if (ip === '37.140.192.64') {
+        // Правильный DNS
+        validationResult.innerHTML = '<span style="color: #48bb78;">✅ Правильно! Вы нашли IP-адрес сайта nogkolledzh.ru</span>';
+        ipInput.style.borderColor = '#48bb78';
+        updateQuest(questId, true);
+        showAchievement('🌐 Отлично! Вы освоили работу с DNS!');
+    } else {
+        // Неправильный DNS
+        validationResult.innerHTML = '<span style="color: #e53e3e;">❌ Неправильный IP. Используйте команду "nslookup nogkolledzh.ru" чтобы найти правильный IP</span>';
+        ipInput.style.borderColor = '#e53e3e';
+    }
+}
+
 // Инициализация игры
 function initGame() {
     loadProgress();
@@ -469,13 +488,19 @@ function unlockQuests(questIds) {
             gameData.quests[questId].unlocked = true;
             updateQuestStatus(questId);
             
-            // Включаем input и button для IP-квестов (1.1 и 2.1)
-            if (questId === '1.1' || questId === '2.1') {
+            // Включаем input и button для IP-квестов (1.1, 2.1, 2.2)
+            if (questId === '1.1' || questId === '2.1' || questId === '2.2') {
                 const ipInput = document.getElementById(`ip-input-${questId}`);
                 const checkButton = document.getElementById(`check-btn-${questId}`);
                 if (ipInput) {
                     ipInput.disabled = false;
-                    ipInput.placeholder = questId === '1.1' ? "10.0.2.x" : "Введите IP шлюза";
+                    if (questId === '1.1') {
+                        ipInput.placeholder = "10.0.2.x";
+                    } else if (questId === '2.1') {
+                        ipInput.placeholder = "Введите IP шлюза";
+                    } else if (questId === '2.2') {
+                        ipInput.placeholder = "37.140.192.64";
+                    }
                 }
                 if (checkButton) checkButton.disabled = false;
             }
@@ -525,7 +550,7 @@ function updateAllQuestStatuses() {
         }
         
         // Обновляем состояние полей ввода для IP-квестов
-        if ((questId === '1.1' || questId === '2.1') && quest.unlocked) {
+        if ((questId === '1.1' || questId === '2.1' || questId === '2.2') && quest.unlocked) {
             const ipInput = document.getElementById(`ip-input-${questId}`);
             const checkButton = document.getElementById(`check-btn-${questId}`);
             if (ipInput) ipInput.disabled = false;
