@@ -3,9 +3,16 @@ const gameData = {
     xp: 0,
     level: 1,
     rank: "Стажер",
+    theory: {
+        1: { completed: false, unlocked: true },
+        2: { completed: false, unlocked: false },
+        3: { completed: false, unlocked: false },
+        4: { completed: false, unlocked: false },
+        5: { completed: false, unlocked: false }
+    },
     quests: {
-        '1.1': { completed: false, xp: 10, unlocked: true },
-        '1.2': { completed: false, xp: 15, unlocked: true },
+        '1.1': { completed: false, xp: 10, unlocked: false },
+        '1.2': { completed: false, xp: 15, unlocked: false },
         '2.1': { completed: false, xp: 15, unlocked: false },
         '2.2': { completed: false, xp: 10, unlocked: false },
         '3.1': { completed: false, xp: 15, unlocked: false },
@@ -25,7 +32,8 @@ const achievements = {
     firstQuest: { name: "Первый шаг", desc: "Выполните первый квест", unlocked: false },
     networkMaster: { name: "Сетевой мастер", desc: "Завершите все сетевые квесты", unlocked: false },
     fileMaster: { name: "Файловый мастер", desc: "Завершите все квесты по файловой системе", unlocked: false },
-    allQuests: { name: "Великий сисадмин", desc: "Завершите все квесты", unlocked: false }
+    allQuests: { name: "Великий сисадмин", desc: "Завершите все квесты", unlocked: false },
+    theoryMaster: { name: "Теоретик", desc: "Изучите всю теорию", unlocked: false }
 };
 
 // Текущий открытый уровень
@@ -37,15 +45,16 @@ let currentLevel = 1;
 function showTheoryMap() {
     document.querySelector('.theory-map').style.display = 'flex';
     document.querySelector('.theory-content').style.display = 'none';
-    
-    // Сбрасываем активные карточки
-    document.querySelectorAll('.theory-card').forEach(card => {
-        card.classList.remove('active');
-    });
+    updateTheoryNodes();
 }
 
 // Показать конкретную теорию
 function showTheory(theoryNumber) {
+    // Проверяем, доступна ли теория
+    if (!gameData.theory[theoryNumber].unlocked) {
+        return;
+    }
+    
     // Скрываем карту и показываем контент
     document.querySelector('.theory-map').style.display = 'none';
     document.querySelector('.theory-content').style.display = 'block';
@@ -62,26 +71,82 @@ function showTheory(theoryNumber) {
     }
     
     // Обновляем статусы узлов на карте теории
-    updateTheoryNodes(theoryNumber);
+    updateTheoryNodes();
 }
 
 // Обновление статусов узлов теории
-function updateTheoryNodes(currentTheory) {
+function updateTheoryNodes() {
     document.querySelectorAll('.theory-node').forEach((node, index) => {
         const theoryNum = index + 1;
         const statusElement = node.querySelector('.node-status');
+        const theory = gameData.theory[theoryNum];
         
-        node.classList.remove('active', 'completed');
-        statusElement.textContent = 'Доступно';
+        node.classList.remove('active', 'completed', 'locked');
         
-        if (theoryNum === currentTheory) {
-            node.classList.add('active');
-            statusElement.textContent = 'Изучается';
-        } else if (theoryNum < currentTheory) {
+        if (theory.completed) {
             node.classList.add('completed');
             statusElement.textContent = 'Изучено';
+        } else if (theory.unlocked) {
+            node.classList.add('active');
+            statusElement.textContent = 'Доступно';
+        } else {
+            node.classList.add('locked');
+            statusElement.textContent = 'Заблокировано';
         }
     });
+}
+
+// Завершение теории и разблокировка следующей
+function completeTheory(theoryNumber) {
+    if (gameData.theory[theoryNumber].unlocked) {
+        gameData.theory[theoryNumber].completed = true;
+        
+        // Разблокируем следующую теорию
+        if (theoryNumber < 5) {
+            gameData.theory[theoryNumber + 1].unlocked = true;
+        }
+        
+        // Проверяем, пройдена ли вся теория
+        checkTheoryCompletion();
+        
+        // Обновляем интерфейс
+        updateTheoryNodes();
+        updateNavigation();
+        saveProgress();
+        
+        // Показываем достижение если завершена вся теория
+        if (isAllTheoryCompleted()) {
+            showAchievement('📚 Поздравляем! Вы изучили всю теорию!');
+            achievements.theoryMaster.unlocked = true;
+        }
+    }
+}
+
+// Проверка завершенности всей теории
+function isAllTheoryCompleted() {
+    return Object.values(gameData.theory).every(theory => theory.completed);
+}
+
+// Проверка завершения теории и разблокировка квестов
+function checkTheoryCompletion() {
+    if (isAllTheoryCompleted()) {
+        // Разблокируем квесты первого уровня
+        unlockQuests(['1.1', '1.2']);
+        updateNavigation();
+        showAchievement('🎮 Теперь доступны квесты! Переходите на карту.');
+    }
+}
+
+// Обновление навигации
+function updateNavigation() {
+    const mapButton = document.querySelector('.nav-btn[onclick="showSection(\'map\')"]');
+    if (isAllTheoryCompleted()) {
+        mapButton.classList.remove('disabled');
+        mapButton.onclick = function() { showSection('map'); };
+    } else {
+        mapButton.classList.add('disabled');
+        mapButton.onclick = null;
+    }
 }
 
 // ========== ОСНОВНЫЕ ФУНКЦИИ ИГРЫ ==========
@@ -139,6 +204,8 @@ function initGame() {
     showSection('theory');
     updateAllQuestStatuses();
     updateMap();
+    updateTheoryNodes();
+    updateNavigation();
     
     // Инициализируем карту теории
     showTheoryMap();
@@ -160,8 +227,14 @@ function showSection(sectionName) {
     if (sectionName === 'theory') {
         document.getElementById('theory-section').classList.add('active');
         document.querySelector('.nav-btn[onclick="showSection(\'theory\')"]').classList.add('active');
-        showTheoryMap(); // Показываем карту теории при переходе в раздел
+        showTheoryMap();
     } else if (sectionName === 'map') {
+        // Проверяем, пройдена ли теория
+        if (!isAllTheoryCompleted()) {
+            showAchievement('📚 Сначала изучите всю теорию!');
+            showSection('theory');
+            return;
+        }
         document.getElementById('map-section').classList.add('active');
         document.querySelector('.nav-btn[onclick="showSection(\'map\')"]').classList.add('active');
         updateMap();
@@ -210,8 +283,8 @@ function updateMap() {
         // Сбрасываем классы
         node.classList.remove('active', 'completed', 'locked');
         
-        if (level === 1) {
-            // Уровень 1 всегда доступен
+        if (level === 1 && isAllTheoryCompleted()) {
+            // Уровень 1 доступен после прохождения теории
             node.classList.add('active');
             node.querySelector('.node-status').textContent = 'Доступно';
         } else {
@@ -256,7 +329,7 @@ function updateLevelProgressOnMap(level) {
     const totalXP = levelQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
     const earnedXP = completedQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
     
-    const progress = (earnedXP / totalXP) * 100;
+    const progress = totalXP > 0 ? (earnedXP / totalXP) * 100 : 0;
     
     // Обновляем прогресс-бар
     const progressBar = document.getElementById(`map-progress-${level}`);
@@ -549,6 +622,7 @@ function saveProgress() {
         xp: gameData.xp,
         level: gameData.level,
         rank: gameData.rank,
+        theory: gameData.theory,
         quests: gameData.quests,
         achievements: achievements
     };
@@ -563,6 +637,7 @@ function loadProgress() {
         gameData.xp = saveData.xp || 0;
         gameData.level = saveData.level || 1;
         gameData.rank = saveData.rank || "Стажер";
+        gameData.theory = saveData.theory || gameData.theory;
         gameData.quests = saveData.quests || gameData.quests;
         
         if (saveData.achievements) {
@@ -573,6 +648,7 @@ function loadProgress() {
             });
         }
         
+        checkTheoryCompletion();
         checkLevelUnlocks();
     }
 }

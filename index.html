@@ -50,14 +50,14 @@
         <!-- Навигация -->
         <nav class="game-nav">
             <button class="nav-btn active" onclick="showSection('theory')">📚 Теория</button>
-            <button class="nav-btn" onclick="showSection('map')">🗺️ Карта</button>
+            <button class="nav-btn disabled" onclick="showSection('map')">🗺️ Карта</button>
         </nav>
 
         <!-- Блок с теорией в виде карты -->
         <section class="theory-section game-section active" id="theory-section">
             <div class="theory-header">
                 <h2>📚 Основы сетей и систем в ALT Linux</h2>
-                <p>Изучите теорию шаг за шагом, чтобы успешно выполнить квесты</p>
+                <p>Изучите теорию шаг за шагом, чтобы открыть доступ к квестам</p>
             </div>
             
             <div class="theory-map">
@@ -67,51 +67,51 @@
                         <h3>Основы сетей</h3>
                         <p>Что такое компьютерные сети и как они работают</p>
                     </div>
-                    <div class="node-status active">Изучить</div>
+                    <div class="node-status active">Доступно</div>
                 </div>
 
                 <div class="connection-line"></div>
 
-                <div class="theory-node" data-theory="2" onclick="showTheory(2)">
+                <div class="theory-node locked" data-theory="2" onclick="showTheory(2)">
                     <div class="node-icon">🏠</div>
                     <div class="node-info">
                         <h3>IP-адреса</h3>
                         <p>Узнайте что такое IP и как его найти</p>
                     </div>
-                    <div class="node-status">Доступно</div>
+                    <div class="node-status">Заблокировано</div>
                 </div>
 
                 <div class="connection-line"></div>
 
-                <div class="theory-node" data-theory="3" onclick="showTheory(3)">
+                <div class="theory-node locked" data-theory="3" onclick="showTheory(3)">
                     <div class="node-icon">📞</div>
                     <div class="node-info">
                         <h3>Команда Ping</h3>
                         <p>Проверка связи между компьютерами</p>
                     </div>
-                    <div class="node-status">Доступно</div>
+                    <div class="node-status">Заблокировано</div>
                 </div>
 
                 <div class="connection-line"></div>
 
-                <div class="theory-node" data-theory="4" onclick="showTheory(4)">
+                <div class="theory-node locked" data-theory="4" onclick="showTheory(4)">
                     <div class="node-icon">🚪</div>
                     <div class="node-info">
                         <h3>Шлюзы и маршруты</h3>
                         <p>Как компьютеры находят путь в интернет</p>
                     </div>
-                    <div class="node-status">Доступно</div>
+                    <div class="node-status">Заблокировано</div>
                 </div>
 
                 <div class="connection-line"></div>
 
-                <div class="theory-node" data-theory="5" onclick="showTheory(5)">
+                <div class="theory-node locked" data-theory="5" onclick="showTheory(5)">
                     <div class="node-icon">📁</div>
                     <div class="node-info">
                         <h3>Файловая система</h3>
                         <p>Работа с файлами и папками в ALT Linux</p>
                     </div>
-                    <div class="node-status">Доступно</div>
+                    <div class="node-status">Заблокировано</div>
                 </div>
             </div>
 
@@ -135,7 +135,7 @@
                         </div>
                         
                         <div class="theory-next">
-                            <button class="theory-btn" onclick="showTheory(2)">Изучить IP-адреса →</button>
+                            <button class="theory-btn" onclick="completeTheory(1); showTheory(2)">Изучить IP-адреса →</button>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(1)">← Назад</button>
-                            <button class="theory-btn" onclick="showTheory(3)">Изучить Ping →</button>
+                            <button class="theory-btn" onclick="completeTheory(2); showTheory(3)">Изучить Ping →</button>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(2)">← Назад</button>
-                            <button class="theory-btn" onclick="showTheory(4)">Изучить шлюзы →</button>
+                            <button class="theory-btn" onclick="completeTheory(3); showTheory(4)">Изучить шлюзы →</button>
                         </div>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(3)">← Назад</button>
-                            <button class="theory-btn" onclick="showTheory(5)">Изучить файловую систему →</button>
+                            <button class="theory-btn" onclick="completeTheory(4); showTheory(5)">Изучить файловую систему →</button>
                         </div>
                     </div>
                 </div>
@@ -241,7 +241,7 @@
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(4)">← Назад</button>
-                            <button class="theory-btn" onclick="showSection('map')">Начать квесты! 🚀</button>
+                            <button class="theory-btn" onclick="completeTheory(5); showTheoryMap()">Завершить теорию →</button>
                         </div>
                     </div>
                 </div>
@@ -253,7 +253,7 @@
             <h2>🗺️ Карта приключений</h2>
             
             <div class="levels-map">
-                <div class="level-node active" data-level="1" onclick="showLevel(1)">
+                <div class="level-node locked" data-level="1" onclick="showLevel(1)">
                     <div class="node-icon">🎓</div>
                     <div class="node-info">
                         <h3>Уровень 1: Стажер</h3>
@@ -265,7 +265,7 @@
                             <span id="map-xp-1">0/25 XP</span>
                         </div>
                     </div>
-                    <div class="node-status active">Доступно</div>
+                    <div class="node-status locked">Заблокировано</div>
                 </div>
 
                 <div class="connection-line"></div>
@@ -338,7 +338,7 @@
                 <div class="quest-card" data-quest="1.1">
                     <div class="quest-header">
                         <h4>Знакомство с рабочим местом (10 XP)</h4>
-                        <span class="quest-status status-in-progress" id="status-1.1">🟡 Не завершено</span>
+                        <span class="quest-status status-locked" id="status-1.1">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Найти свой IP-адрес в ALT Linux</p>
@@ -366,8 +366,8 @@
                             <div class="ip-check-group">
                                 <label>Введите ваш IP-адрес:</label>
                                 <div class="ip-input-group">
-                                    <input type="text" placeholder="10.0.2.x" id="ip-input-1.1" class="ip-input">
-                                    <button class="check-ip-btn" onclick="checkIP('1.1')" id="check-btn-1.1">Проверить IP</button>
+                                    <input type="text" placeholder="10.0.2.x" id="ip-input-1.1" class="ip-input" disabled>
+                                    <button class="check-ip-btn" onclick="checkIP('1.1')" id="check-btn-1.1" disabled>Проверить IP</button>
                                 </div>
                                 <div class="validation-result" id="validation-1.1"></div>
                             </div>
@@ -378,7 +378,7 @@
                 <div class="quest-card" data-quest="1.2">
                     <div class="quest-header">
                         <h4>Поздороваться с соседом (15 XP)</h4>
-                        <span class="quest-status status-in-progress" id="status-1.2">🟡 Не завершено</span>
+                        <span class="quest-status status-locked" id="status-1.2">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Проверить связь с другим компьютером</p>
@@ -404,7 +404,7 @@
                         
                         <div class="quest-check">
                             <label>
-                                <input type="checkbox" onchange="updateQuest('1.2', this.checked)">
+                                <input type="checkbox" onchange="updateQuest('1.2', this.checked)" disabled>
                                 Я успешно пропинговал соседа и получил ответ
                             </label>
                         </div>
