@@ -358,7 +358,7 @@ function unlockQuests(questIds) {
     });
 }
 
-// Обновление статуса квеста
+// Обновление статуса квеста - ИЗМЕНЕНО: "Не начато" → "Не завершено"
 function updateQuestStatus(questId) {
     const statusElement = document.getElementById(`status-${questId}`);
     const quest = gameData.quests[questId];
@@ -371,7 +371,7 @@ function updateQuestStatus(questId) {
             statusElement.textContent = '🟢 Завершено';
             statusElement.className = 'quest-status status-completed';
         } else {
-            statusElement.textContent = '🟡 Не начато';
+            statusElement.textContent = '🟡 Не завершено';  // ИЗМЕНЕНО
             statusElement.className = 'quest-status status-in-progress';
         }
     }
