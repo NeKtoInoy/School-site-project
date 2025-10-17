@@ -989,3 +989,80 @@ pre {
     transform: none;
     box-shadow: none;
 }
+
+
+/* Добавь эти стили в конец файла style.css */
+
+/* Стили для кнопок подсказок */
+.hint-btn {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin: 10px 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.hint-btn:hover {
+    background: #ffeaa7;
+    transform: translateY(-1px);
+}
+
+.hint-btn.active {
+    background: #ffeaa7;
+    border-color: #fdcb6e;
+}
+
+/* Стили для заблокированной навигации */
+.nav-btn.disabled {
+    background: #e2e8f0;
+    color: #a0aec0;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.nav-btn.disabled:hover {
+    transform: none;
+    background: #e2e8f0;
+    box-shadow: none;
+}
+
+/* Стили для заблокированных узлов теории */
+.theory-node.locked {
+    background: #edf2f7;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.theory-node.locked .node-status {
+    background: #e2e8f0;
+    color: #718096;
+}
+
+.theory-node.locked:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Стили для заблокированных узлов уровней */
+.level-node.locked {
+    background: #edf2f7;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.level-node.locked .node-status {
+    background: #e2e8f0;
+    color: #718096;
+}
+
+.level-node.locked:hover {
+    transform: none;
+    box-shadow: none;
+}

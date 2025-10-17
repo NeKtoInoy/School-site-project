@@ -149,6 +149,24 @@ function updateNavigation() {
     }
 }
 
+// ========== ФУНКЦИИ ДЛЯ ПОДСКАЗОК ==========
+
+// Переключение видимости подсказки
+function toggleHint(hintId) {
+    const hintElement = document.getElementById(hintId);
+    const button = hintElement.previousElementSibling;
+    
+    if (hintElement.style.display === 'none') {
+        hintElement.style.display = 'block';
+        button.textContent = '💡 Скрыть подсказку';
+        button.classList.add('active');
+    } else {
+        hintElement.style.display = 'none';
+        button.textContent = '💡 Показать подсказку';
+        button.classList.remove('active');
+    }
+}
+
 // ========== ОСНОВНЫЕ ФУНКЦИИ ИГРЫ ==========
 
 // Новая функция проверки IP для ALT Linux
@@ -451,11 +469,14 @@ function unlockQuests(questIds) {
             gameData.quests[questId].unlocked = true;
             updateQuestStatus(questId);
             
-            // Включаем input и button для IP-квестов
-            if (questId === '2.1') {
+            // Включаем input и button для IP-квестов (1.1 и 2.1)
+            if (questId === '1.1' || questId === '2.1') {
                 const ipInput = document.getElementById(`ip-input-${questId}`);
                 const checkButton = document.getElementById(`check-btn-${questId}`);
-                if (ipInput) ipInput.disabled = false;
+                if (ipInput) {
+                    ipInput.disabled = false;
+                    ipInput.placeholder = questId === '1.1' ? "10.0.2.x" : "Введите IP шлюза";
+                }
                 if (checkButton) checkButton.disabled = false;
             }
             
@@ -501,6 +522,14 @@ function updateAllQuestStatuses() {
         if (checkbox) {
             checkbox.checked = quest.completed;
             checkbox.disabled = !quest.unlocked;
+        }
+        
+        // Обновляем состояние полей ввода для IP-квестов
+        if ((questId === '1.1' || questId === '2.1') && quest.unlocked) {
+            const ipInput = document.getElementById(`ip-input-${questId}`);
+            const checkButton = document.getElementById(`check-btn-${questId}`);
+            if (ipInput) ipInput.disabled = false;
+            if (checkButton) checkButton.disabled = false;
         }
     });
 }
