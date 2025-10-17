@@ -31,6 +31,52 @@ const achievements = {
 // Текущий открытый уровень
 let currentLevel = 1;
 
+// Новая функция проверки IP для ALT Linux
+function checkIP(questId) {
+    const ipInput = document.getElementById(`ip-input-${questId}`);
+    const validationResult = document.getElementById(`validation-${questId}`);
+    const ip = ipInput.value.trim();
+    
+    // Проверяем, что IP в сети 10.0.2.0/24
+    const ipRegex = /^10\.0\.2\.(\d{1,3})$/;
+    const match = ip.match(ipRegex);
+    
+    if (match) {
+        const lastOctet = parseInt(match[1]);
+        if (lastOctet >= 1 && lastOctet <= 254) {
+            // Правильный IP
+            validationResult.innerHTML = '<span style="color: #48bb78;">✅ Правильно! Это IP из сети 10.0.2.0/24</span>';
+            ipInput.style.borderColor = '#48bb78';
+            updateQuest(questId, true);
+            showAchievement('🎯 Отлично! Вы нашли свой IP в ALT Linux!');
+            return;
+        }
+    }
+    
+    // Неправильный IP
+    validationResult.innerHTML = '<span style="color: #e53e3e;">❌ Неправильный IP. Должен быть в сети 10.0.2.0/24</span>';
+    ipInput.style.borderColor = '#e53e3e';
+}
+
+// Новая функция проверки шлюза для ALT Linux
+function checkGateway(questId) {
+    const ipInput = document.getElementById(`ip-input-${questId}`);
+    const validationResult = document.getElementById(`validation-${questId}`);
+    const ip = ipInput.value.trim();
+    
+    if (ip === '10.0.2.2') {
+        // Правильный шлюз
+        validationResult.innerHTML = '<span style="color: #48bb78;">✅ Правильно! Шлюз определен верно</span>';
+        ipInput.style.borderColor = '#48bb78';
+        updateQuest(questId, true);
+        showAchievement('🌐 Отлично! Вы нашли шлюз в ALT Linux!');
+    } else {
+        // Неправильный шлюз
+        validationResult.innerHTML = '<span style="color: #e53e3e;">❌ Неправильный шлюз. Используйте команду "ip route show" чтобы найти правильный IP</span>';
+        ipInput.style.borderColor = '#e53e3e';
+    }
+}
+
 // Инициализация игры
 function initGame() {
     loadProgress();
@@ -294,16 +340,19 @@ function unlockQuests(questIds) {
             gameData.quests[questId].unlocked = true;
             updateQuestStatus(questId);
             
-            // Включаем чекбокс и поле ввода
+            // Включаем input и button для IP-квестов
+            if (questId === '2.1') {
+                const ipInput = document.getElementById(`ip-input-${questId}`);
+                const checkButton = document.getElementById(`check-btn-${questId}`);
+                if (ipInput) ipInput.disabled = false;
+                if (checkButton) checkButton.disabled = false;
+            }
+            
+            // Включаем чекбокс для обычных квестов
             const questCard = document.querySelector(`[data-quest="${questId}"]`);
             const checkbox = questCard?.querySelector('input[type="checkbox"]');
-            const textInput = questCard?.querySelector('input[type="text"]');
-            
             if (checkbox) {
                 checkbox.disabled = false;
-            }
-            if (textInput) {
-                textInput.disabled = false;
             }
         }
     });
@@ -336,31 +385,13 @@ function updateAllQuestStatuses() {
         // Обновляем состояние чекбоксов и полей ввода
         const questCard = document.querySelector(`[data-quest="${questId}"]`);
         const checkbox = questCard?.querySelector('input[type="checkbox"]');
-        const textInput = questCard?.querySelector('input[type="text"]');
         const quest = gameData.quests[questId];
         
         if (checkbox) {
             checkbox.checked = quest.completed;
             checkbox.disabled = !quest.unlocked;
         }
-        if (textInput) {
-            textInput.disabled = !quest.unlocked;
-        }
     });
-}
-
-// Улучшенная валидация IP-адреса
-function validateIP(questId, ip) {
-    const ipRegex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    const checkbox = document.querySelector(`[data-quest="${questId}"] input[type="checkbox"]`);
-    
-    if (ipRegex.test(ip) && gameData.quests[questId].unlocked) {
-        checkbox.disabled = false;
-        return true;
-    } else {
-        checkbox.disabled = true;
-        return false;
-    }
 }
 
 // Улучшенное копирование команды
@@ -430,6 +461,13 @@ function showAchievement(text) {
     
     achievementText.textContent = text;
     modal.style.display = 'block';
+    
+    // Автоматически скрываем через 4 секунды
+    setTimeout(() => {
+        if (modal.style.display === 'block') {
+            closeModal();
+        }
+    }, 4000);
 }
 
 // Закрытие модального окна
