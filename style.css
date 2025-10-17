@@ -758,3 +758,184 @@ pre {
         width: 100%;
     }
 }
+
+/* Добавь эти стили в конец файла style.css */
+
+/* Стили для карты теории */
+.theory-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.theory-header h2 {
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.theory-header p {
+    color: #718096;
+    font-size: 1.1em;
+}
+
+.theory-map {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 30px 0;
+    min-height: 500px;
+}
+
+.theory-node {
+    display: flex;
+    align-items: center;
+    background: #f7fafc;
+    border-radius: 15px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    position: relative;
+    z-index: 10;
+}
+
+.theory-node.active {
+    border-color: #667eea;
+    background: #f0f4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.theory-node.completed {
+    border-color: #48bb78;
+    background: #f0fff4;
+}
+
+.theory-node:hover:not(.locked) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.theory-node .node-icon {
+    font-size: 2.5em;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.theory-node .node-info {
+    flex-grow: 1;
+}
+
+.theory-node .node-info h3 {
+    color: #2d3748;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+.theory-node .node-info p {
+    color: #718096;
+    margin-bottom: 0;
+}
+
+.theory-node .node-status {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+.theory-node.active .node-status {
+    background: #bee3f8;
+    color: #2b6cb0;
+}
+
+.theory-node.completed .node-status {
+    background: #c6f6d5;
+    color: #276749;
+}
+
+/* Контент теории */
+.theory-content {
+    display: none;
+}
+
+.theory-card {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.theory-card.active {
+    display: block;
+}
+
+.theory-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.theory-card-header h3 {
+    color: #2d3748;
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.theory-card-content {
+    line-height: 1.7;
+}
+
+.theory-next {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+/* Подсказки в квестах */
+.quest-explanation {
+    background: #f0f9ff;
+    border-left: 4px solid #4299e1;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.quest-explanation h4 {
+    color: #2b6cb0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .theory-map {
+        min-height: 400px;
+    }
+    
+    .theory-node {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .theory-node .node-icon {
+        margin-right: 0;
+    }
+    
+    .theory-card-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .theory-card-header h3 {
+        font-size: 1.3em;
+    }
+}

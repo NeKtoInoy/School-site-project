@@ -31,6 +31,61 @@ const achievements = {
 // Текущий открытый уровень
 let currentLevel = 1;
 
+// ========== НАВИГАЦИЯ ПО ТЕОРИИ ==========
+
+// Показать карту теории
+function showTheoryMap() {
+    document.querySelector('.theory-map').style.display = 'flex';
+    document.querySelector('.theory-content').style.display = 'none';
+    
+    // Сбрасываем активные карточки
+    document.querySelectorAll('.theory-card').forEach(card => {
+        card.classList.remove('active');
+    });
+}
+
+// Показать конкретную теорию
+function showTheory(theoryNumber) {
+    // Скрываем карту и показываем контент
+    document.querySelector('.theory-map').style.display = 'none';
+    document.querySelector('.theory-content').style.display = 'block';
+    
+    // Скрываем все карточки теории
+    document.querySelectorAll('.theory-card').forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    // Показываем выбранную карточку
+    const theoryCard = document.getElementById(`theory-${theoryNumber}`);
+    if (theoryCard) {
+        theoryCard.classList.add('active');
+    }
+    
+    // Обновляем статусы узлов на карте теории
+    updateTheoryNodes(theoryNumber);
+}
+
+// Обновление статусов узлов теории
+function updateTheoryNodes(currentTheory) {
+    document.querySelectorAll('.theory-node').forEach((node, index) => {
+        const theoryNum = index + 1;
+        const statusElement = node.querySelector('.node-status');
+        
+        node.classList.remove('active', 'completed');
+        statusElement.textContent = 'Доступно';
+        
+        if (theoryNum === currentTheory) {
+            node.classList.add('active');
+            statusElement.textContent = 'Изучается';
+        } else if (theoryNum < currentTheory) {
+            node.classList.add('completed');
+            statusElement.textContent = 'Изучено';
+        }
+    });
+}
+
+// ========== ОСНОВНЫЕ ФУНКЦИИ ИГРЫ ==========
+
 // Новая функция проверки IP для ALT Linux
 function checkIP(questId) {
     const ipInput = document.getElementById(`ip-input-${questId}`);
@@ -84,6 +139,9 @@ function initGame() {
     showSection('theory');
     updateAllQuestStatuses();
     updateMap();
+    
+    // Инициализируем карту теории
+    showTheoryMap();
 }
 
 // Навигация по разделам
@@ -102,6 +160,7 @@ function showSection(sectionName) {
     if (sectionName === 'theory') {
         document.getElementById('theory-section').classList.add('active');
         document.querySelector('.nav-btn[onclick="showSection(\'theory\')"]').classList.add('active');
+        showTheoryMap(); // Показываем карту теории при переходе в раздел
     } else if (sectionName === 'map') {
         document.getElementById('map-section').classList.add('active');
         document.querySelector('.nav-btn[onclick="showSection(\'map\')"]').classList.add('active');
@@ -236,27 +295,6 @@ function updateLevelProgress() {
     }
 }
 
-// Навигация по теории
-function nextTheory(nextId) {
-    const currentCard = document.querySelector('.theory-card.active');
-    const nextCard = document.getElementById(`theory-${nextId}`);
-    
-    if (currentCard && nextCard) {
-        currentCard.classList.remove('active');
-        nextCard.classList.add('active');
-    }
-}
-
-function prevTheory(prevId) {
-    const currentCard = document.querySelector('.theory-card.active');
-    const prevCard = document.getElementById(`theory-${prevId}`);
-    
-    if (currentCard && prevCard) {
-        currentCard.classList.remove('active');
-        prevCard.classList.add('active');
-    }
-}
-
 // Обновление квеста
 function updateQuest(questId, completed) {
     if (gameData.quests[questId] && gameData.quests[questId].unlocked) {
@@ -358,7 +396,7 @@ function unlockQuests(questIds) {
     });
 }
 
-// Обновление статуса квеста - ИЗМЕНЕНО: "Не начато" → "Не завершено"
+// Обновление статуса квеста
 function updateQuestStatus(questId) {
     const statusElement = document.getElementById(`status-${questId}`);
     const quest = gameData.quests[questId];
@@ -371,7 +409,7 @@ function updateQuestStatus(questId) {
             statusElement.textContent = '🟢 Завершено';
             statusElement.className = 'quest-status status-completed';
         } else {
-            statusElement.textContent = '🟡 Не завершено';  // ИЗМЕНЕНО
+            statusElement.textContent = '🟡 Не завершено';
             statusElement.className = 'quest-status status-in-progress';
         }
     }
