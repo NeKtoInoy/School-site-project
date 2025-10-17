@@ -20,12 +20,24 @@ const levels = [
     { level: 3, xpNeeded: 50, rank: "Файловый мастер" }
 ];
 
+// Система достижений
+const achievements = {
+    firstQuest: { name: "Первый шаг", desc: "Выполните первый квест", unlocked: false },
+    networkMaster: { name: "Сетевой мастер", desc: "Завершите все сетевые квесты", unlocked: false },
+    fileMaster: { name: "Файловый мастер", desc: "Завершите все квесты по файловой системе", unlocked: false },
+    allQuests: { name: "Великий сисадмин", desc: "Завершите все квесты", unlocked: false }
+};
+
+// Текущий открытый уровень
+let currentLevel = 1;
+
 // Инициализация игры
 function initGame() {
     loadProgress();
     updateUI();
     showSection('theory');
     updateAllQuestStatuses();
+    updateMap();
 }
 
 // Навигация по разделам
@@ -44,9 +56,137 @@ function showSection(sectionName) {
     if (sectionName === 'theory') {
         document.getElementById('theory-section').classList.add('active');
         document.querySelector('.nav-btn[onclick="showSection(\'theory\')"]').classList.add('active');
+    } else if (sectionName === 'map') {
+        document.getElementById('map-section').classList.add('active');
+        document.querySelector('.nav-btn[onclick="showSection(\'map\')"]').classList.add('active');
+        updateMap();
     } else if (sectionName === 'quests') {
         document.getElementById('quests-section').classList.add('active');
-        document.querySelector('.nav-btn[onclick="showSection(\'quests\')"]').classList.add('active');
+    }
+}
+
+// Показать конкретный уровень
+function showLevel(levelNumber) {
+    // Проверяем, доступен ли уровень
+    const levelNode = document.querySelector(`.level-node[data-level="${levelNumber}"]`);
+    if (levelNode.classList.contains('locked')) {
+        return;
+    }
+    
+    currentLevel = levelNumber;
+    
+    // Скрываем все уровни
+    document.querySelectorAll('.quest-level').forEach(level => {
+        level.classList.remove('active');
+    });
+    
+    // Показываем выбранный уровень
+    document.getElementById(`level-${levelNumber}`).classList.add('active');
+    
+    // Обновляем заголовок уровня
+    const levelTitles = {
+        1: "Уровень 1: Стажер",
+        2: "Уровень 2: Сетевой детектив", 
+        3: "Уровень 3: Файловый мастер"
+    };
+    document.getElementById('current-level-title').textContent = levelTitles[levelNumber];
+    
+    // Переходим к разделу квестов
+    showSection('quests');
+    updateLevelProgress();
+}
+
+// Обновление карты уровней
+function updateMap() {
+    // Обновляем статусы узлов на карте
+    document.querySelectorAll('.level-node').forEach(node => {
+        const level = parseInt(node.getAttribute('data-level'));
+        
+        // Сбрасываем классы
+        node.classList.remove('active', 'completed', 'locked');
+        
+        if (level === 1) {
+            // Уровень 1 всегда доступен
+            node.classList.add('active');
+            node.querySelector('.node-status').textContent = 'Доступно';
+        } else {
+            // Проверяем, доступен ли уровень
+            const prevLevelCompleted = isLevelCompleted(level - 1);
+            
+            if (prevLevelCompleted) {
+                node.classList.add('active');
+                node.querySelector('.node-status').textContent = 'Доступно';
+            } else {
+                node.classList.add('locked');
+                node.querySelector('.node-status').textContent = 'Заблокировано';
+            }
+        }
+        
+        // Проверяем, завершен ли уровень
+        if (isLevelCompleted(level)) {
+            node.classList.remove('active', 'locked');
+            node.classList.add('completed');
+            node.querySelector('.node-status').textContent = 'Завершено';
+        }
+        
+        // Обновляем прогресс на карте
+        updateLevelProgressOnMap(level);
+    });
+}
+
+// Проверка завершенности уровня
+function isLevelCompleted(level) {
+    const levelQuests = Object.keys(gameData.quests)
+        .filter(questId => questId.startsWith(level + '.'));
+    
+    return levelQuests.every(questId => gameData.quests[questId].completed);
+}
+
+// Обновление прогресса уровня на карте
+function updateLevelProgressOnMap(level) {
+    const levelQuests = Object.keys(gameData.quests)
+        .filter(questId => questId.startsWith(level + '.'));
+    
+    const completedQuests = levelQuests.filter(questId => gameData.quests[questId].completed);
+    const totalXP = levelQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
+    const earnedXP = completedQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
+    
+    const progress = (earnedXP / totalXP) * 100;
+    
+    // Обновляем прогресс-бар
+    const progressBar = document.getElementById(`map-progress-${level}`);
+    if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+    }
+    
+    // Обновляем текст XP
+    const xpText = document.getElementById(`map-xp-${level}`);
+    if (xpText) {
+        xpText.textContent = `${earnedXP}/${totalXP} XP`;
+    }
+}
+
+// Обновление прогресса текущего уровня
+function updateLevelProgress() {
+    const levelQuests = Object.keys(gameData.quests)
+        .filter(questId => questId.startsWith(currentLevel + '.'));
+    
+    const completedQuests = levelQuests.filter(questId => gameData.quests[questId].completed);
+    const totalXP = levelQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
+    const earnedXP = completedQuests.reduce((sum, questId) => sum + gameData.quests[questId].xp, 0);
+    
+    const progress = totalXP > 0 ? (earnedXP / totalXP) * 100 : 0;
+    
+    // Обновляем прогресс-бар
+    const progressBar = document.getElementById('level-progress-fill');
+    if (progressBar) {
+        progressBar.style.width = `${progress}%`;
+    }
+    
+    // Обновляем текст прогресса
+    const progressText = document.getElementById('level-progress-text');
+    if (progressText) {
+        progressText.textContent = `${Math.round(progress)}%`;
     }
 }
 
@@ -83,7 +223,12 @@ function updateQuest(questId, completed) {
         updateQuestStatus(questId);
         updateUI();
         checkLevelUnlocks();
+        checkAchievements();
         saveProgress();
+        
+        // Обновляем прогресс уровня
+        updateLevelProgress();
+        updateMap();
         
         // Показываем ачивку, если квест завершен
         if (completed) {
@@ -131,18 +276,13 @@ function updateLevel() {
 
 // Проверка разблокировки уровней
 function checkLevelUnlocks() {
-    const level2 = document.getElementById('level-2');
-    const level3 = document.getElementById('level-3');
-    
     // Уровень 2 разблокируется при 25 XP
     if (gameData.xp >= 25) {
-        level2.style.display = 'block';
         unlockQuests(['2.1', '2.2']);
     }
     
     // Уровень 3 разблокируется при 50 XP
     if (gameData.xp >= 50) {
-        level3.style.display = 'block';
         unlockQuests(['3.1', '3.2']);
     }
 }
@@ -209,9 +349,9 @@ function updateAllQuestStatuses() {
     });
 }
 
-// Валидация IP-адреса
+// Улучшенная валидация IP-адреса
 function validateIP(questId, ip) {
-    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+    const ipRegex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     const checkbox = document.querySelector(`[data-quest="${questId}"] input[type="checkbox"]`);
     
     if (ipRegex.test(ip) && gameData.quests[questId].unlocked) {
@@ -223,17 +363,63 @@ function validateIP(questId, ip) {
     }
 }
 
-// Копирование команды
+// Улучшенное копирование команды
 function copyCommand(element) {
     const command = element.textContent;
     navigator.clipboard.writeText(command).then(() => {
-        // Временная подсветка
+        // Сохраняем оригинальные стили
         const originalBg = element.style.backgroundColor;
-        element.style.backgroundColor = '#c6f6d5';
+        const originalText = element.textContent;
+        
+        // Визуальный фидбек
+        element.style.backgroundColor = '#48bb78';
+        element.style.color = 'white';
+        element.textContent = '✓ Скопировано!';
+        
         setTimeout(() => {
             element.style.backgroundColor = originalBg;
-        }, 500);
+            element.style.color = '';
+            element.textContent = originalText;
+        }, 1500);
+    }).catch(err => {
+        console.log('Ошибка копирования:', err);
+        element.style.backgroundColor = '#e53e3e';
+        element.textContent = '❌ Ошибка';
+        setTimeout(() => {
+            element.style.backgroundColor = '#edf2f7';
+            element.textContent = command;
+        }, 1500);
     });
+}
+
+// Проверка и разблокировка достижений
+function checkAchievements() {
+    // Первый квест
+    if (gameData.quests['1.1'].completed && !achievements.firstQuest.unlocked) {
+        achievements.firstQuest.unlocked = true;
+        showAchievement(`🏆 ${achievements.firstQuest.name}: ${achievements.firstQuest.desc}`);
+    }
+    
+    // Сетевой мастер
+    const networkQuests = ['1.1', '1.2', '2.1', '2.2'];
+    if (networkQuests.every(questId => gameData.quests[questId].completed) && !achievements.networkMaster.unlocked) {
+        achievements.networkMaster.unlocked = true;
+        showAchievement(`🏆 ${achievements.networkMaster.name}: ${achievements.networkMaster.desc}`);
+    }
+    
+    // Файловый мастер
+    const fileQuests = ['3.1', '3.2'];
+    if (fileQuests.every(questId => gameData.quests[questId].completed) && !achievements.fileMaster.unlocked) {
+        achievements.fileMaster.unlocked = true;
+        showAchievement(`🏆 ${achievements.fileMaster.name}: ${achievements.fileMaster.desc}`);
+    }
+    
+    // Все квесты
+    const allQuestIds = Object.keys(gameData.quests);
+    if (allQuestIds.every(questId => gameData.quests[questId].completed) && !achievements.allQuests.unlocked) {
+        achievements.allQuests.unlocked = true;
+        showAchievement(`🏆 ${achievements.allQuests.name}: ${achievements.allQuests.desc}`);
+    }
 }
 
 // Показ достижения
@@ -287,7 +473,8 @@ function saveProgress() {
         xp: gameData.xp,
         level: gameData.level,
         rank: gameData.rank,
-        quests: gameData.quests
+        quests: gameData.quests,
+        achievements: achievements
     };
     localStorage.setItem('sysadminGameProgress', JSON.stringify(saveData));
 }
@@ -301,6 +488,14 @@ function loadProgress() {
         gameData.level = saveData.level || 1;
         gameData.rank = saveData.rank || "Стажер";
         gameData.quests = saveData.quests || gameData.quests;
+        
+        if (saveData.achievements) {
+            Object.keys(saveData.achievements).forEach(key => {
+                if (achievements[key]) {
+                    achievements[key].unlocked = saveData.achievements[key].unlocked;
+                }
+            });
+        }
         
         checkLevelUnlocks();
     }
@@ -318,7 +513,7 @@ function resetProgress() {
 document.addEventListener('DOMContentLoaded', function() {
     initGame();
     
-    // Добавляем кнопку сброса для удобства (можно удалить в продакшене)
+    // Кнопка сброса прогресса
     const resetBtn = document.createElement('button');
     resetBtn.textContent = '🔄 Сброс';
     resetBtn.style.position = 'fixed';
