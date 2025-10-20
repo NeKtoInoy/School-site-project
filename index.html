@@ -173,7 +173,7 @@
                     <div class="theory-card-content">
                         <p>У каждого дома есть уникальный адрес. В сети у каждого компьютера тоже есть свой "адрес" — IP.</p>
                         <div class="code-example">
-                            <code>10.0.2.15</code> — это как "ул. Сетевая, д.2, кв.15"
+                            <code>192.168.0.1</code> — это как "ул. Сетевая, д.2, кв.15"
                         </div>
                         <p><strong>Как узнать свой IP в ALT Linux:</strong></p>
                         <ul>
@@ -187,14 +187,6 @@
                             </li>
                         </ul>
                         
-                        <div class="theory-explanation">
-                            <h4>🎯 Что вы увидите в терминале:</h4>
-                            <div class="explanation-item">
-                                <strong>Пример вывода:</strong><br>
-                                <code>eth0 UP 10.0.2.15/24 fe80::a00:27ff:fe4e:66a1/64</code><br>
-                                Где <strong>10.0.2.15</strong> — ваш IP-адрес
-                            </div>
-                        </div>
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(1)">← Назад</button>
@@ -275,17 +267,6 @@
                             <li>Найдите строку начинающуюся с "default via"</li>
                         </ul>
                         
-                        <div class="theory-explanation">
-                            <h4>🎯 Пример вывода команды:</h4>
-                            <pre>
-default via 10.0.2.2 dev eth0 proto dhcp metric 100 
-10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15 metric 100
-                            </pre>
-                            <div class="explanation-item">
-                                <strong>default via 10.0.2.2</strong> — это ваш шлюз!<br>
-                                Компьютер говорит: "Все неизвестные адреса отправляю через 10.0.2.2"
-                            </div>
-                        </div>
                         
                         <div class="theory-next">
                             <button class="theory-btn secondary" onclick="showTheory(3)">← Назад</button>
