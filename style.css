@@ -1066,3 +1066,388 @@ pre {
     transform: none;
     box-shadow: none;
 }
+
+/* Добавь эти стили в конец файла style.css */
+
+/* Стили для начального экрана */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.8s ease;
+}
+
+.welcome-content {
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.game-title {
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: bounceIn 1s ease;
+}
+
+.game-subtitle {
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.play-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.4em;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(238, 90, 36, 0.4);
+    margin-bottom: 50px;
+    animation: pulse 2s infinite;
+}
+
+.play-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(238, 90, 36, 0.6);
+}
+
+.welcome-features {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.feature {
+    text-align: center;
+    animation: fadeInUp 0.8s ease;
+}
+
+.feature span {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.feature p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+/* Анимации для начального экрана */
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(238, 90, 36, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(238, 90, 36, 0.6);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 8px 25px rgba(238, 90, 36, 0.4);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность для начального экрана */
+@media (max-width: 768px) {
+    .welcome-content {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+    
+    .game-title {
+        font-size: 2.5em;
+    }
+    
+    .game-subtitle {
+        font-size: 1.1em;
+    }
+    
+    .play-btn {
+        padding: 15px 40px;
+        font-size: 1.2em;
+    }
+    
+    .welcome-features {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .feature span {
+        font-size: 2em;
+    }
+}
+
+
+/* Добавь эти стили в конец файла style.css */
+
+/* Стили для завершения уровня */
+.level-complete-section {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.level-complete-card {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3);
+}
+
+.level-complete-card h3 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.level-complete-card p {
+    font-size: 1.1em;
+    margin-bottom: 25px;
+    opacity: 0.9;
+}
+
+.next-level-btn {
+    background: white;
+    color: #38a169;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.next-level-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Стили для финального экрана */
+.final-section {
+    text-align: center;
+    padding: 40px;
+}
+
+.final-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.final-header h1 {
+    font-size: 3em;
+    color: #4a5568;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.final-subtitle {
+    font-size: 1.3em;
+    color: #718096;
+    margin-bottom: 50px;
+}
+
+.final-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin: 40px 0;
+    padding: 30px;
+    background: #f7fafc;
+    border-radius: 15px;
+}
+
+.final-stat {
+    text-align: center;
+}
+
+.final-stat-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.final-stat-label {
+    color: #718096;
+    font-size: 1.1em;
+}
+
+.achievements-summary {
+    margin: 50px 0;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.achievements-summary h3 {
+    color: #4a5568;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+}
+
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f0fff4;
+    border-radius: 10px;
+    border-left: 4px solid #48bb78;
+}
+
+.achievement-item span {
+    font-size: 2em;
+}
+
+.achievement-item strong {
+    color: #2d3748;
+    font-size: 1.1em;
+}
+
+.achievement-item p {
+    color: #718096;
+    margin: 5px 0 0 0;
+}
+
+.final-message {
+    background: #f0f9ff;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 40px 0;
+    border-left: 4px solid #4299e1;
+}
+
+.final-message p {
+    color: #2b6cb0;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.final-message ul {
+    text-align: left;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.final-message li {
+    color: #4a5568;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.final-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.final-btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.final-btn.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.final-btn.secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.final-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Адаптивность для финального экрана */
+@media (max-width: 768px) {
+    .final-stats {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .final-actions {
+        flex-direction: column;
+    }
+    
+    .final-header h1 {
+        font-size: 2.2em;
+    }
+    
+    .achievement-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
