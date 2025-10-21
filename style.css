@@ -619,8 +619,6 @@ pre {
     }
 }
 
-/* Добавляем в конец файла */
-
 /* Стили для объяснений в теории */
 .theory-explanation {
     background: #f0f9ff;
@@ -671,8 +669,6 @@ pre {
     border-radius: 4px;
     border-left: 3px solid #ed8936;
 }
-
-/* Добавь эти стили в конец файла style.css */
 
 /* Стили для группы проверки IP */
 .ip-check-group {
@@ -758,8 +754,6 @@ pre {
         width: 100%;
     }
 }
-
-/* Добавь эти стили в конец файла style.css */
 
 /* Стили для карты теории */
 .theory-header {
@@ -940,8 +934,6 @@ pre {
     }
 }
 
-/* Добавь эти стили в конец файла style.css */
-
 /* Стили для заблокированной навигации */
 .nav-btn.disabled {
     background: #e2e8f0;
@@ -989,9 +981,6 @@ pre {
     transform: none;
     box-shadow: none;
 }
-
-
-/* Добавь эти стили в конец файла style.css */
 
 /* Стили для кнопок подсказок */
 .hint-btn {
@@ -1018,56 +1007,6 @@ pre {
     background: #ffeaa7;
     border-color: #fdcb6e;
 }
-
-/* Стили для заблокированной навигации */
-.nav-btn.disabled {
-    background: #e2e8f0;
-    color: #a0aec0;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-.nav-btn.disabled:hover {
-    transform: none;
-    background: #e2e8f0;
-    box-shadow: none;
-}
-
-/* Стили для заблокированных узлов теории */
-.theory-node.locked {
-    background: #edf2f7;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.theory-node.locked .node-status {
-    background: #e2e8f0;
-    color: #718096;
-}
-
-.theory-node.locked:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-/* Стили для заблокированных узлов уровней */
-.level-node.locked {
-    background: #edf2f7;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.level-node.locked .node-status {
-    background: #e2e8f0;
-    color: #718096;
-}
-
-.level-node.locked:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-/* Добавь эти стили в конец файла style.css */
 
 /* Стили для начального экрана */
 .welcome-screen {
@@ -1225,9 +1164,6 @@ pre {
         font-size: 2em;
     }
 }
-
-
-/* Добавь эти стили в конец файла style.css */
 
 /* Стили для завершения уровня */
 .level-complete-section {
@@ -1450,4 +1386,21 @@ pre {
         text-align: center;
         gap: 10px;
     }
+}
+
+.level-node .node-icon {
+    font-size: 2.5em;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+/* Стили для поля ввода числа */
+.ip-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.ip-input[type="number"]::-webkit-outer-spin-button,
+.ip-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

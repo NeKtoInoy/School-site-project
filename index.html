@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -325,15 +326,15 @@
             
             <div class="levels-map">
                 <div class="level-node locked" data-level="1" onclick="showLevel(1)">
-                    <div class="node-icon">🎓</div>
+                    <div class="node-icon">📁</div>
                     <div class="node-info">
-                        <h3>Уровень 1: Стажер</h3>
-                        <p>0-25 XP</p>
+                        <h3>Уровень 1: Файловый мастер</h3>
+                        <p>0-30 XP</p>
                         <div class="node-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" id="map-progress-1"></div>
                             </div>
-                            <span id="map-xp-1">0/25 XP</span>
+                            <span id="map-xp-1">0/30 XP</span>
                         </div>
                     </div>
                     <div class="node-status locked">Заблокировано</div>
@@ -342,10 +343,10 @@
                 <div class="connection-line"></div>
 
                 <div class="level-node locked" data-level="2" onclick="showLevel(2)">
-                    <div class="node-icon">🔍</div>
+                    <div class="node-icon">🌐</div>
                     <div class="node-info">
                         <h3>Уровень 2: Сетевой детектив</h3>
-                        <p>25-50 XP</p>
+                        <p>30-55 XP</p>
                         <div class="node-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" id="map-progress-2"></div>
@@ -359,15 +360,15 @@
                 <div class="connection-line"></div>
 
                 <div class="level-node locked" data-level="3" onclick="showLevel(3)">
-                    <div class="node-icon">⚡</div>
+                    <div class="node-icon">🚀</div>
                     <div class="node-info">
-                        <h3>Уровень 3: Файловый мастер</h3>
-                        <p>50+ XP</p>
+                        <h3>Уровень 3: Сетевой гуру</h3>
+                        <p>55+ XP</p>
                         <div class="node-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" id="map-progress-3"></div>
                             </div>
-                            <span id="map-xp-3">0/30 XP</span>
+                            <span id="map-xp-3">0/25 XP</span>
                         </div>
                     </div>
                     <div class="node-status locked">Заблокировано</div>
@@ -394,7 +395,7 @@
         <section class="quests-section game-section" id="quests-section">
             <div class="level-header">
                 <button class="back-to-map-btn" onclick="showSection('map')">← Назад к карте</button>
-                <h2 id="current-level-title">Уровень 1: Стажер</h2>
+                <h2 id="current-level-title">Уровень 1: Файловый мастер</h2>
                 <div class="level-progress">
                     <span>Прогресс уровня: </span>
                     <div class="progress-bar small">
@@ -404,12 +405,110 @@
                 </div>
             </div>
             
-            <!-- Уровень 1 -->
+            <!-- Уровень 1 (Файлы) -->
             <div class="quest-level active" id="level-1">
                 <div class="quest-card" data-quest="1.1">
                     <div class="quest-header">
-                        <h4>Знакомство с рабочим местом (10 XP)</h4>
+                        <h4>Работа с файлами и каталогами (15 XP)</h4>
                         <span class="quest-status status-locked" id="status-1.1">🔒 Заблокировано</span>
+                    </div>
+                    <div class="quest-description">
+                        <p><strong>Задача:</strong> Освоить базовые команды для работы с файловой системой в ALT Linux</p>
+                        <div class="quest-steps">
+                            <p><strong>Шаг за шагом:</strong></p>
+                            <ol>
+                                <li>Создайте основную папку: <code>mkdir учеба</code></li>
+                                <li>Перейдите в неё: <code>cd учеба</code></li>
+                                <li>Проверьте где находитесь: <code>pwd</code></li>
+                                <li>Создайте папку для проектов: <code>mkdir проекты</code></li>
+                                <li>Войдите в папку проектов: <code>cd проекты</code></li>
+                                <li>Создайте тестовую папку: <code>mkdir тест</code></li>
+                                <li>Вернитесь в папку "учёба": <code>cd ..</code></li>
+                            </ol>
+                        </div>
+                        
+                        <button class="hint-btn" onclick="toggleHint('hint-1.1')">💡 Показать подробную подсказку</button>
+                        
+                        <div class="quest-explanation" id="hint-1.1" style="display: none;">
+                            <h4>💡 Подробная инструкция:</h4>
+                            <div class="explanation-item">
+                                <strong>Команды и их расшифровка:</strong>
+                                <ul>
+                                    <li><code>mkdir</code> — создать папку (make directory)</li>
+                                    <li><code>cd</code> — перейти в папку (change directory)</li>
+                                    <li><code>pwd</code> — показать текущую папку (print working directory)</li>
+                                    <li><code>ls -l</code> — список файлов подробно (list)</li>
+                                    <li><code>touch</code> — создать пустой файл</li>
+                                    <li><code>cp</code> — копировать файл (copy)</li>
+                                    <li><code>mv</code> — переместить или переименовать (move)</li>
+                                    <li><code>rm</code> — удалить файл (remove)</li>
+                                </ul>
+                            </div>
+                            <div class="explanation-item">
+                                <strong>Важные моменты:</strong>
+                                <ul>
+                                    <li><code>cd ..</code> — перейти в родительскую папку</li>
+                                    <li><code>cd</code> без параметров — перейти в домашнюю папку</li>
+                                    <li><code>ls -l</code> показывает права доступа, владельца, размер и дату</li>
+                                    <li>Будьте осторожны с <code>rm</code> — удалённые файлы не попадают в корзину!</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="quest-check">
+                            <label>
+                                <input type="checkbox" onchange="updateQuest('1.1', this.checked)" disabled>
+                                Я создал структуру папок и поработал с файлами
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quest-card" data-quest="1.2">
+                    <div class="quest-header">
+                        <h4>Подсчет созданных папок (15 XP)</h4>
+                        <span class="quest-status status-locked" id="status-1.2">🔒 Заблокировано</span>
+                    </div>
+                    <div class="quest-description">
+                        <p><strong>Задача:</strong> Определить сколько папок вы создали в предыдущем задании</p>
+                        <div class="quest-steps">
+                            <p><strong>Вспомните:</strong> Вы создавали папки в определенной последовательности</p>
+                            <p>Сколько всего папок вы создали в предыдущем задании?</p>
+                        </div>
+                        
+                        
+                        
+                        
+                        
+                        <div class="quest-check">
+                            <div class="ip-check-group">
+                                <label>Сколько папок вы создали?</label>
+                                <div class="ip-input-group">
+                                    <input type="number" placeholder="Введите число" id="ip-input-1.2" class="ip-input" disabled min="0" max="10">
+                                    <button class="check-ip-btn" onclick="checkFoldersCount('1.2')" id="check-btn-1.2" disabled>Проверить</button>
+                                </div>
+                                <div class="validation-result" id="validation-1.2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка перехода на следующий уровень -->
+                <div class="level-complete-section" id="level-1-complete" style="display: none;">
+                    <div class="level-complete-card">
+                        <h3>🎉 Уровень 1 завершен!</h3>
+                        <p>Вы успешно освоили основы работы с файловой системой в ALT Linux</p>
+                        <button class="next-level-btn" onclick="showLevel(2)">Перейти к Уровню 2 →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Уровень 2 (Сети) -->
+            <div class="quest-level" id="level-2">
+                <div class="quest-card" data-quest="2.1">
+                    <div class="quest-header">
+                        <h4>Знакомство с рабочим местом (10 XP)</h4>
+                        <span class="quest-status status-locked" id="status-2.1">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Найти свой IP-адрес в ALT Linux</p>
@@ -423,9 +522,9 @@
                             <p><em>В нашей учебной сети IP должен быть в диапазоне 10.0.2.0/24</em></p>
                         </div>
                         
-                        <button class="hint-btn" onclick="toggleHint('hint-1.1')">💡 Показать подробную подсказку</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-2.1')">💡 Показать подробную подсказку</button>
                         
-                        <div class="quest-explanation" id="hint-1.1" style="display: none;">
+                        <div class="quest-explanation" id="hint-2.1" style="display: none;">
                             <h4>💡 Подробная инструкция:</h4>
                             <div class="explanation-item">
                                 <strong>Шаг 1:</strong> Откройте терминал - нажмите Ctrl+Alt+T или найдите "Терминал" в меню приложений
@@ -458,19 +557,19 @@
                             <div class="ip-check-group">
                                 <label>Введите ваш IP-адрес:</label>
                                 <div class="ip-input-group">
-                                    <input type="text" placeholder="Введите IP-адрес" id="ip-input-1.1" class="ip-input" disabled>
-                                    <button class="check-ip-btn" onclick="checkIP('1.1')" id="check-btn-1.1" disabled>Проверить IP</button>
+                                    <input type="text" placeholder="Введите IP-адрес" id="ip-input-2.1" class="ip-input" disabled>
+                                    <button class="check-ip-btn" onclick="checkIP('2.1')" id="check-btn-2.1" disabled>Проверить IP</button>
                                 </div>
-                                <div class="validation-result" id="validation-1.1"></div>
+                                <div class="validation-result" id="validation-2.1"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="quest-card" data-quest="1.2">
+                <div class="quest-card" data-quest="2.2">
                     <div class="quest-header">
                         <h4>Поздороваться с соседом (15 XP)</h4>
-                        <span class="quest-status status-locked" id="status-1.2">🔒 Заблокировано</span>
+                        <span class="quest-status status-locked" id="status-2.2">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Проверить связь с другим компьютером</p>
@@ -484,12 +583,12 @@
                             <p>Пример: <code>ping 10.0.2.20</code></p>
                         </div>
                         
-                        <button class="hint-btn" onclick="toggleHint('hint-1.2')">💡 Показать подробную подсказку</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-2.2')">💡 Показать подробную подсказку</button>
                         
-                        <div class="quest-explanation" id="hint-1.2" style="display: none;">
+                        <div class="quest-explanation" id="hint-2.2" style="display: none;">
                             <h4>💡 Подробная инструкция:</h4>
                             <div class="explanation-item">
-                                <strong>Шаг 1:</strong> Узнайте IP соседа - он должен выполнить задание 1.1 и сказать вам свой IP
+                                <strong>Шаг 1:</strong> Узнайте IP соседа - он должен выполнить задание 2.1 и сказать вам свой IP
                             </div>
                             <div class="explanation-item">
                                 <strong>Шаг 2:</strong> В терминале введите <code>ping 10.0.2.XX</code> (замените XX на номер соседа)
@@ -516,7 +615,7 @@
                         
                         <div class="quest-check">
                             <label>
-                                <input type="checkbox" onchange="updateQuest('1.2', this.checked)" disabled>
+                                <input type="checkbox" onchange="updateQuest('2.2', this.checked)" disabled>
                                 Я успешно пропинговал соседа и получил ответ
                             </label>
                         </div>
@@ -524,21 +623,21 @@
                 </div>
 
                 <!-- Кнопка перехода на следующий уровень -->
-                <div class="level-complete-section" id="level-1-complete" style="display: none;">
+                <div class="level-complete-section" id="level-2-complete" style="display: none;">
                     <div class="level-complete-card">
-                        <h3>🎉 Уровень 1 завершен!</h3>
-                        <p>Вы успешно освоили основы сетевого взаимодействия в ALT Linux</p>
-                        <button class="next-level-btn" onclick="showLevel(2)">Перейти к Уровню 2 →</button>
+                        <h3>🎉 Уровень 2 завершен!</h3>
+                        <p>Вы стали настоящим сетевым детективом! Пора освоить продвинутые сетевые команды.</p>
+                        <button class="next-level-btn" onclick="showLevel(3)">Перейти к Уровню 3 →</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Уровень 2 -->
-            <div class="quest-level" id="level-2">
-                <div class="quest-card" data-quest="2.1">
+            <!-- Уровень 3 (Продвинутые сети) -->
+            <div class="quest-level" id="level-3">
+                <div class="quest-card" data-quest="3.1">
                     <div class="quest-header">
                         <h4>Найти шлюз и выйти "в город" (15 XP)</h4>
-                        <span class="quest-status status-locked" id="status-2.1">🔒 Заблокировано</span>
+                        <span class="quest-status status-locked" id="status-3.1">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Определить IP шлюза и проверить связь с ним</p>
@@ -550,22 +649,22 @@
                             <p>5. Нажмите <code>Ctrl+C</code> чтобы остановить ping</p>
                         </div>
                         
-                        <button class="hint-btn" onclick="toggleHint('hint-2.1')">💡 Показать подробную подсказку</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-3.1')">💡 Показать подробную подсказку</button>
                         
-                        <div class="quest-explanation" id="hint-2.1" style="display: none;">
+                        <div class="quest-explanation" id="hint-3.1" style="display: none;">
                             <h4>💡 Подробная инструкция:</h4>
                             <div class="explanation-item">
                                 <strong>Шаг 1:</strong> Введите команду <code>ip route show</code>
                             </div>
                             <div class="explanation-item">
                                 <strong>Шаг 2:</strong> Ищите строку, которая начинается с <code>default via</code><br>
-                                Пример: <code>default via 10.0.2.2 dev eth0</code>
+                                Пример: <code>default via 10.0.X.X dev eth0</code>
                             </div>
                             <div class="explanation-item">
-                                <strong>Шаг 3:</strong> Число после "via" — это IP вашего шлюза (в примере это 10.0.2.2)
+                                <strong>Шаг 3:</strong> Число после "via" — это IP вашего шлюза 
                             </div>
                             <div class="explanation-item">
-                                <strong>Шаг 4:</strong> Пропингуйте шлюз: <code>ping 10.0.2.2</code>
+                                <strong>Шаг 4:</strong> Пропингуйте шлюз: <code>ping 10.0.X.X</code>
                             </div>
                             <div class="explanation-item">
                                 <strong>Шаг 5:</strong> Если шлюз отвечает — отлично! Нажмите Ctrl+C
@@ -582,19 +681,19 @@
                             <div class="ip-check-group">
                                 <label>Введите IP шлюза:</label>
                                 <div class="ip-input-group">
-                                    <input type="text" placeholder="Введите IP шлюза" id="ip-input-2.1" class="ip-input" disabled>
-                                    <button class="check-ip-btn" onclick="checkGateway('2.1')" id="check-btn-2.1" disabled>Проверить шлюз</button>
+                                    <input type="text" placeholder="Введите IP шлюза" id="ip-input-3.1" class="ip-input" disabled>
+                                    <button class="check-ip-btn" onclick="checkGateway('3.1')" id="check-btn-3.1" disabled>Проверить шлюз</button>
                                 </div>
-                                <div class="validation-result" id="validation-2.1"></div>
+                                <div class="validation-result" id="validation-3.1"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="quest-card" data-quest="2.2">
+                <div class="quest-card" data-quest="3.2">
                     <div class="quest-header">
                         <h4>Узнать IP-адрес сайта (10 XP)</h4>
-                        <span class="quest-status status-locked" id="status-2.2">🔒 Заблокировано</span>
+                        <span class="quest-status status-locked" id="status-3.2">🔒 Заблокировано</span>
                     </div>
                     <div class="quest-description">
                         <p><strong>Задача:</strong> Узнать IP-адрес сайта по его имени</p>
@@ -604,9 +703,9 @@
                             <p>3. Скопируйте IP-адрес</p>
                         </div>
                         
-                        <button class="hint-btn" onclick="toggleHint('hint-2.2')">💡 Показать подробную подсказку</button>
+                        <button class="hint-btn" onclick="toggleHint('hint-3.2')">💡 Показать подробную подсказку</button>
                         
-                        <div class="quest-explanation" id="hint-2.2" style="display: none;">
+                        <div class="quest-explanation" id="hint-3.2" style="display: none;">
                             <h4>💡 Подробная инструкция:</h4>
                             <div class="explanation-item">
                                 <strong>Шаг 1:</strong> Введите команду <code>nslookup nogkolledzh.ru</code>
@@ -615,7 +714,7 @@
                                 <strong>Шаг 2:</strong> В выводе ищите раздел "Non-authoritative answer"
                             </div>
                             <div class="explanation-item">
-                                <strong>Шаг 3:</strong> Найдите строку "Address: 37.140.192.64"
+                                <strong>Шаг 3:</strong> Найдите строку "Address: XX.XXX.XXX.XX"
                             </div>
                             <div class="explanation-item">
                                 <strong>Пример вывода:</strong><br>
@@ -625,7 +724,7 @@ Address:        127.0.0.53#53
 
 Non-authoritative answer:
 Name:   nogkolledzh.ru
-Address: 37.140.192.64
+Address: XX.XXX.XXX.XX
                                 </pre>
                             </div>
                             <div class="explanation-item">
@@ -637,145 +736,11 @@ Address: 37.140.192.64
                             <div class="ip-check-group">
                                 <label>Введите IP-адрес сайта:</label>
                                 <div class="ip-input-group">
-                                    <input type="text" placeholder="Введите IP-адрес" id="ip-input-2.2" class="ip-input" disabled>
-                                    <button class="check-ip-btn" onclick="checkDNS('2.2')" id="check-btn-2.2" disabled>Проверить</button>
+                                    <input type="text" placeholder="Введите IP-адрес" id="ip-input-3.2" class="ip-input" disabled>
+                                    <button class="check-ip-btn" onclick="checkDNS('3.2')" id="check-btn-3.2" disabled>Проверить</button>
                                 </div>
-                                <div class="validation-result" id="validation-2.2"></div>
+                                <div class="validation-result" id="validation-3.2"></div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Кнопка перехода на следующий уровень -->
-                <div class="level-complete-section" id="level-2-complete" style="display: none;">
-                    <div class="level-complete-card">
-                        <h3>🎉 Уровень 2 завершен!</h3>
-                        <p>Вы стали настоящим сетевым детективом! Пора освоить работу с файлами.</p>
-                        <button class="next-level-btn" onclick="showLevel(3)">Перейти к Уровню 3 →</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Уровень 3 -->
-            <div class="quest-level" id="level-3">
-                <div class="quest-card" data-quest="3.1">
-                    <div class="quest-header">
-                        <h4>Работа с файлами и каталогами (15 XP)</h4>
-                        <span class="quest-status status-locked" id="status-3.1">🔒 Заблокировано</span>
-                    </div>
-                    <div class="quest-description">
-                        <p><strong>Задача:</strong> Освоить базовые команды для работы с файловой системой в ALT Linux</p>
-                        <div class="quest-steps">
-                            <p><strong>Шаг за шагом:</strong></p>
-                            <ol>
-                                <li>Создайте основную папку: <code>mkdir учеба</code></li>
-                                <li>Перейдите в неё: <code>cd учеба</code></li>
-                                <li>Проверьте где находитесь: <code>pwd</code></li>
-                                <li>Создайте папку для проектов: <code>mkdir проекты</code></li>
-                                <li>Войдите в папку проектов: <code>cd проекты</code></li>
-                                <li>Создайте тестовую папку: <code>mkdir тест</code></li>
-                                <li>Вернитесь в папку "учёба": <code>cd ..</code></li>
-                                <li>Посмотрите содержимое: <code>ls -l</code></li>
-                                <li>Создайте текстовый файл: <code>touch заметки.txt</code></li>
-                                <li>Скопируйте файл: <code>cp заметки.txt проекты/</code></li>
-                                <li>Переименуйте копию: <code>mv проекты/заметки.txt проекты/копия_заметок.txt</code></li>
-                                <li>Удалите оригинальный файл: <code>rm заметки.txt</code></li>
-                            </ol>
-                            <p><strong>Проверьте результат командой:</strong> <code>find . -type f</code></p>
-                        </div>
-                        
-                        <button class="hint-btn" onclick="toggleHint('hint-3.1')">💡 Показать подробную подсказку</button>
-                        
-                        <div class="quest-explanation" id="hint-3.1" style="display: none;">
-                            <h4>💡 Подробная инструкция:</h4>
-                            <div class="explanation-item">
-                                <strong>Команды и их расшифровка:</strong>
-                                <ul>
-                                    <li><code>mkdir</code> — создать папку (make directory)</li>
-                                    <li><code>cd</code> — перейти в папку (change directory)</li>
-                                    <li><code>pwd</code> — показать текущую папку (print working directory)</li>
-                                    <li><code>ls -l</code> — список файлов подробно (list)</li>
-                                    <li><code>touch</code> — создать пустой файл</li>
-                                    <li><code>cp</code> — копировать файл (copy)</li>
-                                    <li><code>mv</code> — переместить или переименовать (move)</li>
-                                    <li><code>rm</code> — удалить файл (remove)</li>
-                                </ul>
-                            </div>
-                            <div class="explanation-item">
-                                <strong>Важные моменты:</strong>
-                                <ul>
-                                    <li><code>cd ..</code> — перейти в родительскую папку</li>
-                                    <li><code>cd</code> без параметров — перейти в домашнюю папку</li>
-                                    <li><code>ls -l</code> показывает права доступа, владельца, размер и дату</li>
-                                    <li>Будьте осторожны с <code>rm</code> — удалённые файлы не попадают в корзину!</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="quest-check">
-                            <label>
-                                <input type="checkbox" onchange="updateQuest('3.1', this.checked)" disabled>
-                                Я создал структуру папок и поработал с файлами
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="quest-card" data-quest="3.2">
-                    <div class="quest-header">
-                        <h4>Поиск файлов в системе (15 XP)</h4>
-                        <span class="quest-status status-locked" id="status-3.2">🔒 Заблокировано</span>
-                    </div>
-                    <div class="quest-description">
-                        <p><strong>Задача:</strong> Научиться находить файлы и папки в ALT Linux</p>
-                        <div class="quest-steps">
-                            <p><strong>Команды для поиска:</strong></p>
-                            <ul>
-                                <li><code>find /home -name "*.txt"</code> - найти все txt файлы в домашней папке</li>
-                                <li><code>find . -name "заметки*"</code> - найти файлы начинающиеся на "заметки" в текущей папке</li>
-                                <li><code>find /home -type d -name "тест"</code> - найти папку с именем "тест"</li>
-                                <li><code>locate учеба</code> - быстрый поиск по индексу (если установлен пакет mlocate)</li>
-                                <li><code>grep -r "текст" .</code> - найти файлы содержащие текст "текст"</li>
-                            </ul>
-                            <p><strong>Задание:</strong> Найдите созданные вами файлы и папки с помощью команды find</p>
-                            <p><em>Подсказка: начните с поиска в текущей папке: <code>find . -name "копия_заметок*"</code></em></p>
-                        </div>
-                        
-                        <button class="hint-btn" onclick="toggleHint('hint-3.2')">💡 Показать подробную подсказку</button>
-                        
-                        <div class="quest-explanation" id="hint-3.2" style="display: none;">
-                            <h4>💡 Подробная инструкция:</h4>
-                            <div class="explanation-item">
-                                <strong>Команда find - синтаксис:</strong><br>
-                                <code>find [где_искать] [параметры] [имя_или_условие]</code>
-                            </div>
-                            <div class="explanation-item">
-                                <strong>Параметры find:</strong>
-                                <ul>
-                                    <li><code>-name "шаблон"</code> — поиск по имени</li>
-                                    <li><code>-type f</code> — искать только файлы</li>
-                                    <li><code>-type d</code> — искать только папки</li>
-                                    <li><code>-mtime -1</code> — файлы изменённые за последние 24 часа</li>
-                                </ul>
-                            </div>
-                            <div class="explanation-item">
-                                <strong>Примеры использования:</strong>
-                                <ul>
-                                    <li><code>find . -name "*.txt"</code> — найти все txt файлы здесь и в подпапках</li>
-                                    <li><code>find /home -type d -name "проекты"</code> — найти папку "проекты" в домашней директории</li>
-                                    <li><code>find . -size +1M</code> — найти файлы больше 1 мегабайта</li>
-                                </ul>
-                            </div>
-                            <div class="explanation-item">
-                                <strong>Команда locate:</strong> Работает быстрее, но требует обновления базы (<code>sudo updatedb</code>)
-                            </div>
-                        </div>
-                        
-                        <div class="quest-check">
-                            <label>
-                                <input type="checkbox" onchange="updateQuest('3.2', this.checked)" disabled>
-                                Я нашел созданные файлы с помощью команды find
-                            </label>
                         </div>
                     </div>
                 </div>
@@ -784,7 +749,7 @@ Address: 37.140.192.64
                 <div class="level-complete-section" id="level-3-complete" style="display: none;">
                     <div class="level-complete-card">
                         <h3>🎉 Уровень 3 завершен!</h3>
-                        <p>Вы стали настоящим файловым мастером! Поздравляем с завершением всех уровней!</p>
+                        <p>Вы стали настоящим сетевым гуру! Поздравляем с завершением всех уровней!</p>
                         <button class="next-level-btn" onclick="showFinalScreen()">Посмотреть итоги →</button>
                     </div>
                 </div>
@@ -809,7 +774,7 @@ Address: 37.140.192.64
                         <span class="final-stat-label">XP</span>
                     </div>
                     <div class="final-stat">
-                        <span class="final-stat-value" id="final-rank">Файловый мастер</span>
+                        <span class="final-stat-value" id="final-rank">Сетевой гуру</span>
                         <span class="final-stat-label">Звание</span>
                     </div>
                 </div>
@@ -818,17 +783,24 @@ Address: 37.140.192.64
                     <h3>🏆 Ваши достижения:</h3>
                     <div class="achievements-list">
                         <div class="achievement-item completed">
-                            <span>🌐</span>
-                            <div>
-                                <strong>Сетевой мастер</strong>
-                                <p>Завершены все сетевые квесты</p>
-                            </div>
-                        </div>
-                        <div class="achievement-item completed">
                             <span>📁</span>
                             <div>
                                 <strong>Файловый мастер</strong>
                                 <p>Завершены все квесты по файловой системе</p>
+                            </div>
+                        </div>
+                        <div class="achievement-item completed">
+                            <span>🌐</span>
+                            <div>
+                                <strong>Сетевой детектив</strong>
+                                <p>Завершены все базовые сетевые квесты</p>
+                            </div>
+                        </div>
+                        <div class="achievement-item completed">
+                            <span>🚀</span>
+                            <div>
+                                <strong>Сетевой гуру</strong>
+                                <p>Завершены все продвинутые сетевые квесты</p>
                             </div>
                         </div>
                         <div class="achievement-item completed">
@@ -844,9 +816,9 @@ Address: 37.140.192.64
                 <div class="final-message">
                     <p>Теперь вы обладаете практическими навыками работы в ALT Linux и можете:</p>
                     <ul>
+                        <li>Эффективно работать с файловой системой</li>
                         <li>Настраивать сетевые подключения</li>
                         <li>Диагностировать проблемы с сетью</li>
-                        <li>Эффективно работать с файловой системой</li>
                         <li>Использовать терминал для решения повседневных задач</li>
                     </ul>
                 </div>
