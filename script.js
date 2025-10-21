@@ -17,7 +17,8 @@ const gameData = {
         '2.1': { completed: false, xp: 10, unlocked: false }, // IP
         '2.2': { completed: false, xp: 15, unlocked: false }, // Ping
         '3.1': { completed: false, xp: 15, unlocked: false }, // Шлюз
-        '3.2': { completed: false, xp: 10, unlocked: false }  // DNS
+        '3.2': { completed: false, xp: 10, unlocked: false }, // DNS
+        '4.1': { completed: false, xp: 20, unlocked: false }  // Bash-скрипт
     }
 };
 
@@ -25,7 +26,8 @@ const gameData = {
 const levels = [
     { level: 1, xpNeeded: 0, rank: "Стажер" },
     { level: 2, xpNeeded: 30, rank: "Файловый мастер" },
-    { level: 3, xpNeeded: 55, rank: "Сетевой гуру" }
+    { level: 3, xpNeeded: 55, rank: "Сетевой гуру" },
+    { level: 4, xpNeeded: 80, rank: "Скриптовый маг" }
 ];
 
 // Система достижений
@@ -34,6 +36,7 @@ const achievements = {
     fileMaster: { name: "Файловый мастер", desc: "Завершите все квесты по файловой системе", unlocked: false },
     networkMaster: { name: "Сетевой детектив", desc: "Завершите все базовые сетевые квесты", unlocked: false },
     networkGuru: { name: "Сетевой гуру", desc: "Завершите все продвинутые сетевые квесты", unlocked: false },
+    scriptMaster: { name: "Скриптовый маг", desc: "Создали свой первый bash-скрипт", unlocked: false },
     allQuests: { name: "Великий сисадмин", desc: "Завершите все квесты", unlocked: false },
     theoryMaster: { name: "Теоретик", desc: "Изучите всю теорию", unlocked: false }
 };
@@ -274,6 +277,27 @@ function checkDNS(questId) {
     }
 }
 
+// Проверка задания со скриптом
+function checkScriptTask(questId) {
+    const input = document.getElementById(`ip-input-${questId}`);
+    const validationResult = document.getElementById(`validation-${questId}`);
+    const username = input.value.trim();
+    
+    // Не строгая проверка - просто проверяем, что введено какое-то значение
+    if (username && username.length > 0) {
+        // Правильный ответ
+        validationResult.innerHTML = '<span style="color: #48bb78;">✅ Отлично! Вы создали свой первый скрипт!</span>';
+        input.style.borderColor = '#48bb78';
+        updateQuest(questId, true);
+        showAchievement('⚡ Поздравляем! Вы стали Скриптовым магом!');
+        achievements.scriptMaster.unlocked = true;
+    } else {
+        // Неправильный ответ
+        validationResult.innerHTML = '<span style="color: #e53e3e;">❌ Введите имя пользователя из вывода скрипта</span>';
+        input.style.borderColor = '#e53e3e';
+    }
+}
+
 // ========== ОСНОВНЫЕ ФУНКЦИИ ИГРЫ ==========
 
 // Инициализация игры
@@ -293,6 +317,7 @@ function initGame() {
     checkLevelCompletion(1);
     checkLevelCompletion(2);
     checkLevelCompletion(3);
+    checkLevelCompletion(4);
     
     // Если все квесты завершены, показываем финальный экран
     if (isAllQuestsCompleted()) {
@@ -338,7 +363,7 @@ function showSection(sectionName) {
 function showLevel(levelNumber) {
     // Проверяем, доступен ли уровень
     const levelNode = document.querySelector(`.level-node[data-level="${levelNumber}"]`);
-    if (levelNode.classList.contains('locked')) {
+    if (levelNode.classList.contains('locked') || levelNode.classList.contains('hidden')) {
         return;
     }
     
@@ -356,7 +381,8 @@ function showLevel(levelNumber) {
     const levelTitles = {
         1: "Уровень 1: Файловый мастер",
         2: "Уровень 2: Сетевой детектив", 
-        3: "Уровень 3: Сетевой гуру"
+        3: "Уровень 3: Сетевой гуру",
+        4: "Уровень 4: Секретное задание"
     };
     document.getElementById('current-level-title').textContent = levelTitles[levelNumber];
     
@@ -374,15 +400,39 @@ function updateMap() {
     document.querySelectorAll('.level-node').forEach(node => {
         const level = parseInt(node.getAttribute('data-level'));
         
-        // Сбрасываем классы
-        node.classList.remove('active', 'completed', 'locked');
+        // Для уровня 4 обрабатываем отдельно
+        if (level === 4) {
+            // Проверяем, завершены ли уровни 1-3
+            const levelsCompleted = isLevelCompleted(1) && isLevelCompleted(2) && isLevelCompleted(3);
+            
+            if (isLevelCompleted(4)) {
+                // Уровень 4 завершен
+                node.classList.remove('hidden', 'locked', 'secret-level');
+                node.classList.add('completed');
+                node.querySelector('.node-status').textContent = 'Завершено';
+            } else if (levelsCompleted) {
+                // Уровни 1-3 завершены, показываем секретный уровень
+                node.classList.remove('hidden', 'locked');
+                node.classList.add('active', 'secret-level');
+                node.querySelector('.node-status').textContent = 'Секретный уровень';
+            } else {
+                // Уровни 1-3 не завершены, скрываем уровень 4
+                node.classList.add('hidden');
+                node.classList.remove('active', 'completed', 'secret-level');
+            }
+            return;
+        }
         
+        // Обычная логика для уровней 1-3
+        node.classList.remove('active', 'completed', 'locked', 'hidden');
+        
+        // Уровень 1 доступен после прохождения теории
         if (level === 1 && isAllTheoryCompleted()) {
-            // Уровень 1 доступен после прохождения теории
             node.classList.add('active');
             node.querySelector('.node-status').textContent = 'Доступно';
-        } else {
-            // Проверяем, доступен ли уровень
+        } 
+        // Уровни 2-3 доступны только если предыдущий уровень завершен
+        else if (level > 1) {
             const prevLevelCompleted = isLevelCompleted(level - 1);
             
             if (prevLevelCompleted) {
@@ -392,6 +442,9 @@ function updateMap() {
                 node.classList.add('locked');
                 node.querySelector('.node-status').textContent = 'Заблокировано';
             }
+        } else {
+            node.classList.add('locked');
+            node.querySelector('.node-status').textContent = 'Заблокировано';
         }
         
         // Проверяем, завершен ли уровень
@@ -547,6 +600,12 @@ function checkLevelUnlocks() {
     if (gameData.xp >= 55) {
         unlockQuests(['3.1', '3.2']);
     }
+    
+    // Уровень 4 (скрипты) разблокируется при завершении уровней 1-3
+    if (isLevelCompleted(1) && isLevelCompleted(2) && isLevelCompleted(3)) {
+        unlockQuests(['4.1']);
+        showAchievement('⚡ Секретное задание разблокировано!');
+    }
 }
 
 // Разблокировка квестов
@@ -556,8 +615,8 @@ function unlockQuests(questIds) {
             gameData.quests[questId].unlocked = true;
             updateQuestStatus(questId);
             
-            // Включаем input и button для IP-квестов (1.2, 2.1, 3.1, 3.2)
-            if (questId === '1.2' || questId === '2.1' || questId === '3.1' || questId === '3.2') {
+            // Включаем input и button для IP-квестов (1.2, 2.1, 3.1, 3.2, 4.1)
+            if (questId === '1.2' || questId === '2.1' || questId === '3.1' || questId === '3.2' || questId === '4.1') {
                 const ipInput = document.getElementById(`ip-input-${questId}`);
                 const checkButton = document.getElementById(`check-btn-${questId}`);
                 if (ipInput) {
@@ -570,6 +629,8 @@ function unlockQuests(questIds) {
                         ipInput.placeholder = "Введите IP шлюза";
                     } else if (questId === '3.2') {
                         ipInput.placeholder = "";
+                    } else if (questId === '4.1') {
+                        ipInput.placeholder = "Введите имя пользователя";
                     }
                 }
                 if (checkButton) checkButton.disabled = false;
@@ -620,7 +681,7 @@ function updateAllQuestStatuses() {
         }
         
         // Обновляем состояние полей ввода для IP-квестов
-        if ((questId === '1.2' || questId === '2.1' || questId === '3.1' || questId === '3.2') && quest.unlocked) {
+        if ((questId === '1.2' || questId === '2.1' || questId === '3.1' || questId === '3.2' || questId === '4.1') && quest.unlocked) {
             const ipInput = document.getElementById(`ip-input-${questId}`);
             const checkButton = document.getElementById(`check-btn-${questId}`);
             if (ipInput) ipInput.disabled = false;
@@ -687,6 +748,12 @@ function checkAchievements() {
         showAchievement(`🏆 ${achievements.networkGuru.name}: ${achievements.networkGuru.desc}`);
     }
     
+    // Скриптовый маг
+    if (gameData.quests['4.1'].completed && !achievements.scriptMaster.unlocked) {
+        achievements.scriptMaster.unlocked = true;
+        showAchievement(`🏆 ${achievements.scriptMaster.name}: ${achievements.scriptMaster.desc}`);
+    }
+    
     // Все квесты
     const allQuestIds = Object.keys(gameData.quests);
     if (allQuestIds.every(questId => gameData.quests[questId].completed) && !achievements.allQuests.unlocked) {
@@ -718,7 +785,7 @@ function closeModal() {
     modal.style.display = 'none';
 }
 
-// Обновление интерфейса
+// Обновление интерфейс
 function updateUI() {
     // Обновляем XP и уровень
     document.getElementById('xp').textContent = gameData.xp;
@@ -793,7 +860,7 @@ function checkLevelCompletion(level) {
         levelCompleteSection.style.display = 'block';
         
         // Автоматически разблокируем следующий уровень на карте
-        if (level < 3) {
+        if (level < 4) {
             // Уровень разблокируется через checkLevelUnlocks по XP
             updateMap();
         }

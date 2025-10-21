@@ -358,6 +358,12 @@ pre {
     border-color: #a0aec0;
 }
 
+.legend-color.secret {
+    background: #2d3748;
+    border-color: #ff4444;
+    animation: redLightning 2s infinite;
+}
+
 /* Заголовок уровня в квестах */
 .level-header {
     display: flex;
@@ -1403,4 +1409,107 @@ pre {
 .ip-input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+/* Эффект красных молний для секретного уровня на карте */
+@keyframes redLightning {
+    0% { 
+        box-shadow: 
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 15px #ff0000,
+            0 0 20px #ff0000;
+    }
+    50% { 
+        box-shadow: 
+            0 0 10px #ff0000,
+            0 0 20px #ff0000, 
+            0 0 30px #ff0000,
+            0 0 40px #ff0000,
+            0 0 50px #ff0000;
+    }
+    100% { 
+        box-shadow: 
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 15px #ff0000,
+            0 0 20px #ff0000;
+    }
+}
+
+@keyframes lightningBorder {
+    0% {
+        border-color: #ff4444;
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+    }
+    50% {
+        border-color: #ff0000;
+        background: linear-gradient(135deg, #4a5568, #2d3748);
+    }
+    100% {
+        border-color: #ff4444;
+        background: linear-gradient(135deg, #2d3748, #4a5568);
+    }
+}
+
+/* Стили для скрытых элементов */
+.hidden {
+    display: none !important;
+}
+
+/* Стили для секретного уровня на карте */
+.level-node.secret-level {
+    animation: redLightning 2s infinite, lightningBorder 3s infinite;
+    border: 3px solid #ff4444;
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.level-node.secret-level::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 0, 0, 0.1),
+        transparent
+    );
+    animation: lightningFlash 4s infinite;
+}
+
+@keyframes lightningFlash {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+.level-node.secret-level .node-icon {
+    filter: brightness(0) invert(1);
+}
+
+.level-node.secret-level .node-info h3 {
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.level-node.secret-level .node-info p {
+    color: #e2e8f0;
+}
+
+.level-node.secret-level .node-status {
+    background: rgba(255, 0, 0, 0.3);
+    color: #ffcccc;
+    border: 1px solid rgba(255, 0, 0, 0.5);
+}
+
+/* Адаптивность для секретного уровня */
+@media (max-width: 768px) {
+    .level-node.secret-level {
+        animation: redLightning 3s infinite, lightningBorder 4s infinite;
+    }
 }

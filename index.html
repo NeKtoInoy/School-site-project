@@ -363,7 +363,7 @@
                     <div class="node-icon">🚀</div>
                     <div class="node-info">
                         <h3>Уровень 3: Сетевой гуру</h3>
-                        <p>55+ XP</p>
+                        <p>55-80 XP</p>
                         <div class="node-progress">
                             <div class="progress-bar small">
                                 <div class="progress-fill" id="map-progress-3"></div>
@@ -372,6 +372,24 @@
                         </div>
                     </div>
                     <div class="node-status locked">Заблокировано</div>
+                </div>
+
+                <div class="connection-line"></div>
+
+                <!-- Секретный уровень 4 - изначально скрыт -->
+                <div class="level-node secret-level hidden" data-level="4" onclick="showLevel(4)">
+                    <div class="node-icon">⚡</div>
+                    <div class="node-info">
+                        <h3>Уровень 4: Секретное задание</h3>
+                        <p>80+ XP</p>
+                        <div class="node-progress">
+                            <div class="progress-bar small">
+                                <div class="progress-fill" id="map-progress-4"></div>
+                            </div>
+                            <span id="map-xp-4">0/20 XP</span>
+                        </div>
+                    </div>
+                    <div class="node-status locked">Секретный уровень</div>
                 </div>
             </div>
 
@@ -387,6 +405,10 @@
                 <div class="legend-item">
                     <div class="legend-color locked"></div>
                     <span>Заблокированный уровень</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color secret"></div>
+                    <span>Секретный уровень</span>
                 </div>
             </div>
         </section>
@@ -476,9 +498,20 @@
                             <p>Сколько всего папок вы создали в предыдущем задании?</p>
                         </div>
                         
+                        <button class="hint-btn" onclick="toggleHint('hint-1.2')">💡 Показать подсказку</button>
                         
-                        
-                        
+                        <div class="quest-explanation" id="hint-1.2" style="display: none;">
+                            <h4>💡 Подсказка:</h4>
+                            <div class="explanation-item">
+                                <strong>Последовательность создания папок:</strong>
+                                <ol>
+                                    <li>Папка "учёба"</li>
+                                    <li>Папка "проекты" (внутри папки "учёба")</li>
+                                    <li>Папка "тест" (внутри папки "проекты")</li>
+                                </ol>
+                                <p>Всего создано: 3 папки</p>
+                            </div>
+                        </div>
                         
                         <div class="quest-check">
                             <div class="ip-check-group">
@@ -519,7 +552,7 @@
                             </p>
                             <p>3. Найдите строку с вашим сетевым интерфейсом (обычно eth0 или enp0s3)</p>
                             <p>4. Скопируйте IP-адрес (числа вида X.X.X.X)</p>
-                            
+                            <p><em>В нашей учебной сети IP должен быть в диапазоне 10.0.2.0/24</em></p>
                         </div>
                         
                         <button class="hint-btn" onclick="toggleHint('hint-2.1')">💡 Показать подробную подсказку</button>
@@ -745,11 +778,83 @@ Address: XX.XXX.XXX.XX
                     </div>
                 </div>
 
-                <!-- Кнопка завершения игры -->
+                <!-- Кнопка перехода на карту -->
                 <div class="level-complete-section" id="level-3-complete" style="display: none;">
                     <div class="level-complete-card">
                         <h3>🎉 Уровень 3 завершен!</h3>
-                        <p>Вы стали настоящим сетевым гуру! Поздравляем с завершением всех уровней!</p>
+                        <p>Вы стали настоящим сетевым гуру! Секретное задание разблокировано!</p>
+                        <button class="next-level-btn" onclick="showSection('map')">Вернуться на карту →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Уровень 4 (Секретное задание) -->
+            <div class="quest-level" id="level-4">
+                <div class="quest-card" data-quest="4.1">
+                    <div class="quest-header">
+                        <h4>⚡ Секретное задание: Создание bash-скрипта (20 XP)</h4>
+                        <span class="quest-status status-locked" id="status-4.1">🔒 Заблокировано</span>
+                    </div>
+                    <div class="quest-description">
+                        <p><strong>Секретная миссия!</strong> Создайте свой первый bash-скрипт в ALT Linux</p>
+                        <div class="quest-steps">
+                            <p><strong>Задание:</strong></p>
+                            <ol>
+                                <li>Создайте файл скрипта: <code>nano myscript.sh</code></li>
+                                <li>Вставьте в него следующий код:</li>
+                            </ol>
+                            <div class="code-example">
+                                <pre>#!/bin/bash
+echo "=== Мой системный монитор ==="
+echo "Дата и время: $(date)"
+echo "Пользователь: $(whoami)"
+echo "Текущая папка: $(pwd)"
+echo "Содержимое папки:"
+ls -la</pre>
+                            </div>
+                            <ol start="3">
+                                <li>Сохраните файл (Ctrl+O, Enter) и выйдите (Ctrl+X)</li>
+                                <li>Сделайте скрипт исполняемым: <code>chmod +x myscript.sh</code></li>
+                                <li>Запустите скрипт: <code>./myscript.sh</code></li>
+                                <li>Введите имя пользователя, которое вы увидели в выводе скрипта</li>
+                            </ol>
+                        </div>
+
+                        <button class="hint-btn" onclick="toggleHint('hint-4.1')">💡 Показать подсказку</button>
+
+                        <div class="quest-explanation" id="hint-4.1" style="display: none;">
+                            <h4>💡 Подсказка:</h4>
+                            <div class="explanation-item">
+                                <p>После запуска скрипта вы увидите несколько строк. Одна из них начинается с "Пользователь:" - это то, что нужно.</p>
+                                <p><strong>Пример вывода:</strong></p>
+                                <pre>
+=== Мой системный монитор ===
+Дата и время: Wed Dec 11 14:30:25 MSK 2024
+Пользователь: student
+Текущая папка: /home/student
+...</pre>
+                                <p>В этом случае имя пользователя: <code>student</code></p>
+                            </div>
+                        </div>
+
+                        <div class="quest-check">
+                            <div class="ip-check-group">
+                                <label>Введите имя пользователя из вывода скрипта:</label>
+                                <div class="ip-input-group">
+                                    <input type="text" placeholder="Введите имя пользователя" id="ip-input-4.1" class="ip-input" disabled>
+                                    <button class="check-ip-btn" onclick="checkScriptTask('4.1')" id="check-btn-4.1" disabled>Проверить</button>
+                                </div>
+                                <div class="validation-result" id="validation-4.1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка завершения игры -->
+                <div class="level-complete-section" id="level-4-complete" style="display: none;">
+                    <div class="level-complete-card">
+                        <h3>🎊 Легендарное достижение!</h3>
+                        <p>Вы создали свой первый bash-скрипт! Теперь вы настоящий мастер!</p>
                         <button class="next-level-btn" onclick="showFinalScreen()">Посмотреть итоги →</button>
                     </div>
                 </div>
@@ -766,15 +871,15 @@ Address: XX.XXX.XXX.XX
                 
                 <div class="final-stats">
                     <div class="final-stat">
-                        <span class="final-stat-value" id="final-level">3</span>
+                        <span class="final-stat-value" id="final-level">4</span>
                         <span class="final-stat-label">Уровень</span>
                     </div>
                     <div class="final-stat">
-                        <span class="final-stat-value" id="final-xp">70</span>
+                        <span class="final-stat-value" id="final-xp">100</span>
                         <span class="final-stat-label">XP</span>
                     </div>
                     <div class="final-stat">
-                        <span class="final-stat-value" id="final-rank">Сетевой гуру</span>
+                        <span class="final-stat-value" id="final-rank">Скриптовый маг</span>
                         <span class="final-stat-label">Звание</span>
                     </div>
                 </div>
@@ -804,6 +909,13 @@ Address: XX.XXX.XXX.XX
                             </div>
                         </div>
                         <div class="achievement-item completed">
+                            <span>⚡</span>
+                            <div>
+                                <strong>Скриптовый маг</strong>
+                                <p>Создали свой первый bash-скрипт</p>
+                            </div>
+                        </div>
+                        <div class="achievement-item completed">
                             <span>🎮</span>
                             <div>
                                 <strong>Великий сисадмин</strong>
@@ -819,6 +931,7 @@ Address: XX.XXX.XXX.XX
                         <li>Эффективно работать с файловой системой</li>
                         <li>Настраивать сетевые подключения</li>
                         <li>Диагностировать проблемы с сетью</li>
+                        <li>Создавать bash-скрипты для автоматизации</li>
                         <li>Использовать терминал для решения повседневных задач</li>
                     </ul>
                 </div>
